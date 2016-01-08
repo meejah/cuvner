@@ -8,6 +8,7 @@ from os.path import abspath
 
 import colors
 import click
+import six
 
 from pygments import highlight
 from pygments.formatters import Terminal256Formatter, TerminalFormatter
@@ -67,7 +68,7 @@ def graph_coverage(keywords, cfg):
         if prct < 0.125:
             return click.style(u' ', fg='red', bg='green')
         return click.style(
-            unichr(0x2580 + int(prct / 0.125)), fg='red', bg='green'
+            six.unichr(0x2580 + int(prct / 0.125)), fg='red', bg='green'
         )
 
     last_fname = None

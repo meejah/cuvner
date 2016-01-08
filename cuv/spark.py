@@ -42,7 +42,7 @@ def spark_coverage(keywords, cfg, sort=True):
         bar = int(percent * 7)
         if True:
             import colors
-            print(colors.color(unichr(0x2581 + bar), fg=46, bg=124), end='')
+            print(colors.color(six.unichr(0x2581 + bar), fg=46, bg=124), end='')
         else:
-            print(unichr(0x2580 + bar), end='')
+            print(six.unichr(0x2580 + bar), end='')
     print()
