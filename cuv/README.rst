@@ -29,6 +29,8 @@ We utilize several quality open-source packages to achieve this:
 .. image:: ../screenshots/cuvner-histogram-twisted.png
     :alt: histogram view, Twisted code
 
+Code: https://github.com/meejah/cuvner
+Docs: https://cuvner.readthedocs.org
 
 Background + Terminology
 ------------------------
