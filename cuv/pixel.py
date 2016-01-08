@@ -8,6 +8,7 @@ import random
 import pkg_resources
 from os.path import split
 
+import six
 from PIL import Image, ImageDraw, ImageFont
 from cuv.analysis import CoverageAnalysis, create_analysis
 
@@ -140,7 +141,7 @@ def pixel_vis(cfg, pixel_size, height, show_image):
                     color = (255, 255, 0, 255)
 
                 try:
-                    text = unicode(value)
+                    text = six.u(value)
                 except UnicodeEncodeError:
                     print("UNICODE ERROR!", value)
                     text = ''
@@ -148,9 +149,9 @@ def pixel_vis(cfg, pixel_size, height, show_image):
                 fg_amt = 1
                 bg_amt = 7
                 color = (
-                    ((bg[0] * bg_amt) + (color[0] * fg_amt)) / (fg_amt + bg_amt),
-                    ((bg[1] * bg_amt) + (color[1] * fg_amt)) / (fg_amt + bg_amt),
-                    ((bg[2] * bg_amt) + (color[2] * fg_amt)) / (fg_amt + bg_amt),
+                    int(((bg[0] * bg_amt) + (color[0] * fg_amt)) / (fg_amt + bg_amt)),
+                    int(((bg[1] * bg_amt) + (color[1] * fg_amt)) / (fg_amt + bg_amt)),
+                    int(((bg[2] * bg_amt) + (color[2] * fg_amt)) / (fg_amt + bg_amt)),
                     255
                 )
 

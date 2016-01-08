@@ -79,8 +79,9 @@ def histogram_coverage(keywords, cfg):
     width = max_width
     height = (line_height + 1) * (len(coverage_data) + wrapped_lines)
 
-    coverage_data.sort(lambda a, b: cmp(a[1].numbers.n_statements, b[1].numbers.n_statements))
-    coverage_data.sort(lambda a, b: cmp(a[0], b[0]))
+    #coverage_data.sort(lambda a, b: cmp(a[1].numbers.n_statements, b[1].numbers.n_statements))
+    #coverage_data.sort(lambda a, b: cmp(a[0], b[0]))
+    coverage_data.sort(key=lambda x: x[0])
 
     svgdoc = svgwrite.Drawing(
         filename="histogram-coverage.svg",
