@@ -72,12 +72,12 @@ def term_color(target_fname, cfg, style='monokai'):
         if (i + 1) not in covdata.missing:
             if (i + 1) in covdata.excluded:
                 line = colors.strip_color(line)
-                print((colors.color(six.unichr(0x258f), fg=46, bg=236) + colors.color(line + spaces, bg=236, fg=242)).encode('utf8'))
+                click.echo((colors.color(six.unichr(0x258f), fg=46, bg=236) + colors.color(line + spaces, bg=236, fg=242)).encode('utf8'))
             elif cfg.branch and (i + 1) in covdata.branch_lines():
                 line = colors.strip_color(line)
-                print((colors.color(six.unichr(0x258a), bg=52, fg=160) + colors.color(line + spaces, bg=52)).encode('utf8'))
+                click.echo((colors.color(six.unichr(0x258a), bg=52, fg=160) + colors.color(line + spaces, bg=52)).encode('utf8'))
             else:
-                print((colors.color(six.unichr(0x258f), fg=46) + line + spaces).encode('utf8'))
+                click.echo((colors.color(six.unichr(0x258f), fg=46) + line + spaces).encode('utf8'))
         else:
             # HACK-O-MATIC, uhm. Yeah, so what we're doing here is
             # splitting the output from the formatter on the ANSI
@@ -88,7 +88,7 @@ def term_color(target_fname, cfg, style='monokai'):
             segments = (line + spaces).split(reset_code)
             reset_plus_bg = "\x1b[39;49;00m\x1b[39;49;48;5;52m"
             out = "\x1b[39;49;48;5;52m" + reset_plus_bg.join(segments)
-            print((colors.color(six.unichr(0x258f), fg=160, bg=52) + out).encode('utf8'))
+            click.echo((colors.color(six.unichr(0x258f), fg=160, bg=52) + out).encode('utf8'))
             # (on the plus side: this preserves syntax-highlighting
             # while also getting a backgroundc color on the whole
             # line)

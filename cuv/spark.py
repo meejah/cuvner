@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 import sys
+import six
 
 
 def spark_coverage(keywords, cfg, sort=True):

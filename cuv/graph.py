@@ -46,7 +46,7 @@ def graph_coverage(keywords, cfg):
     for fname in file_coverage[1:]:
         common = ''.join([x[0] for x in zip(common, fname) if x[0] == x[1]])
 
-    print("Coverage in: {}".format(common).encode('utf8'))
+    click.echo("Coverage in: {}".format(common))
 
     common = len(common)
 
@@ -101,12 +101,12 @@ def graph_coverage(keywords, cfg):
 
             if glyphs >= graph_width:
                 if printed_fname:
-                    print(u'{} {}'.format(u' ' * max_fname, graph).encode('utf8'))
+                    click.echo(u'{} {}'.format(u' ' * max_fname, graph).encode('utf8'))
                 else:
                     printed_fname = True
                     thisname = (u' ' * last_prefix) + short[last_prefix:]
                     thisname = click.style(fname[common:common + last_prefix], fg='black') + click.style(short[last_prefix:], bold=True)
-                    print(u'{}{} {}'.format(thisname, u' ' * (max_fname - len(short)), graph).encode('utf8'))
+                    click.echo(u'{}{} {}'.format(thisname, u' ' * (max_fname - len(short)), graph).encode('utf8'))
                     last_prefix = 0
                 graph = ''
                 glyphs = 0
@@ -119,11 +119,11 @@ def graph_coverage(keywords, cfg):
             graph = click.style('no statements', dim=True, fg='black')
 
         if printed_fname:
-            print(u'{} {}'.format(u' ' * max_fname, graph).encode('utf8'))
+            click.echo(u'{} {}'.format(u' ' * max_fname, graph).encode('utf8'))
         else:
             printed_fname = True
             thisname = (u' ' * last_prefix) + short[last_prefix:]
             thisname = click.style(fname[common:common + last_prefix], fg='black') + click.style(short[last_prefix:], bold=True)
-            print(u'{}{} {}'.format(thisname, u' ' * (max_fname - len(short)), graph).encode('utf8'))
+            click.echo(u'{}{} {}'.format(thisname, u' ' * (max_fname - len(short)), graph).encode('utf8'))
         graph = ''
         glyphs = 0
