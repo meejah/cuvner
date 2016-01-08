@@ -1,0 +1,3 @@
+include cuv/README.rst
+include cuv/source-code-pro.ttf
+recursive-include screenshots *.png
