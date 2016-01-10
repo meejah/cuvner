@@ -6,7 +6,8 @@ from setuptools import setup
 
 setup(
     name='cuvner',
-    version='0.0.0',
+    use_incremental=True,
+    setup_requires=['incremental'],
     description='A commanding view of your test-coverage.',
     long_description=open('cuv/README.rst', 'r').read(),
     keywords=['python', 'twisted'],
@@ -18,10 +19,11 @@ setup(
         'svgwrite',
         'six',
         'Pillow',
+        'incremental',
     ],
     author='meejah',
     author_email='meejah@meejah.ca',
-    url='fixme',
+    url='https://meejah.ca/projects/cuvner',
     license='MIT',
     packages=['cuv'],
     include_package_data=True,
