@@ -1,6 +1,9 @@
 # chicken-and-egg problem a bit here; run "make venv" first before
 # creating this variable works properly :/
-VERSION = ${shell:'./venv/bin/python -c "import cuv; print(cuv.__version__)"'}
+VERSION = ${shell ./venv/bin/python -c 'import cuv; print("{v.major}.{v.minor}.{v.micro}".format(v=cuv.__version__))'}
+
+version: venv
+	echo "Version:" ${VERSION}
 
 venv: setup.py
 	-virtualenv venv
