@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 
-from __future__ import print_function
-
 import sys
 import math
 from os.path import split
 
 import svgwrite
+import click
 
 
 def histogram_coverage(keywords, cfg):
@@ -33,7 +32,7 @@ def histogram_coverage(keywords, cfg):
         try:
             covdata = cov._analyze(fname)
         except Exception:
-            print("failed:", fname)
+            click.echo(u"failed: {}".format(fname))
             continue
 
         if biggest_prefix is None:
@@ -45,7 +44,7 @@ def histogram_coverage(keywords, cfg):
                     break
 
         if covdata.numbers.n_statements == 0:
-            print('no statements, ignoring:', fname)
+            click.echo(u'no statements, ignoring: {}'.format(fname))
             continue
 
         # can't we derive this info. from stuff in coverage?
@@ -188,6 +187,6 @@ def histogram_coverage(keywords, cfg):
         depth += 1
 
     svgdoc.save()
-    print("total coverage {}%".format(float(total_statements - total_missing) / total_statements * 100.0), end='')
-    print(" (missing {} of {} lines)".format(total_missing, total_statements))
-    print("wrote histogram-coverage.svg")
+    click.echo(u"total coverage {}%".format(float(total_statements - total_missing) / total_statements * 100.0), nl=False)
+    click.echo(u" (missing {} of {} lines)".format(total_missing, total_statements))
+    click.echo(u"wrote histogram-coverage.svg")

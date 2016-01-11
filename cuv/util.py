@@ -54,18 +54,18 @@ def print_banner(fname, percent, fill=None):
     if fill is None:
         fill = min(click.get_terminal_size()[0], 80)
 
-    print(colors.color('-' * fill, bg=226, fg=236))
+    click.echo(colors.color('-' * fill, bg=226, fg=236), color=True)
     maxsize = fill - len('coverage: ') - 3
     truncfname = fname[-maxsize:]
     if len(truncfname) != len(fname):
-        truncfname = '...' + truncfname
-    print(colors.color(('coverage: ' + truncfname).ljust(fill), bg=226, fg=236))
+        truncfname = u'...{}'.format(truncfname)
+    click.echo(colors.color(u'coverage: {}'.format(truncfname).ljust(fill), bg=226, fg=236), color=True)
     grsize = int(fill * percent)
     if grsize >= 5:
-        prcnt_formatted = '%3d%%' % int(percent * 100.0)
-        gr = colors.color(prcnt_formatted + (' ' * (grsize - 4)), fg=255, bg=22)
+        prcnt_formatted = u'%3d%%' % int(percent * 100.0)
+        gr = colors.color(prcnt_formatted + (u' ' * (grsize - 4)), fg=255, bg=22)
     else:
-        gr = colors.color(' ' * grsize, bg=22)
-    red = colors.color(' ' * int(math.ceil(fill * (1.0 - percent))), bg=52)
-    print(gr + red)
-    print(colors.color('-' * fill, bg=226, fg=236))
+        gr = colors.color(u' ' * grsize, bg=22)
+    red = colors.color(u' ' * int(math.ceil(fill * (1.0 - percent))), bg=52)
+    click.echo(gr + red, color=True)
+    click.echo(colors.color(u'-' * fill, bg=226, fg=236), color=True)

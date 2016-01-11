@@ -1,7 +1,8 @@
-from __future__ import print_function
-
 import sys
+
 import six
+import colors
+import click
 
 
 def spark_coverage(keywords, cfg, sort=True):
@@ -23,7 +24,7 @@ def spark_coverage(keywords, cfg, sort=True):
         try:
             covdata = cov._analyze(fname)
         except Exception:
-            print("failed:", fname)
+            click.echo(u"failed: {}".format(fname))
             continue
         percent = 1.0  # if no statements, it's all covered, right?
         if covdata.numbers.n_statements:
@@ -41,9 +42,5 @@ def spark_coverage(keywords, cfg, sort=True):
         percents.sort()
     for percent in percents:
         bar = int(percent * 7)
-        if True:
-            import colors
-            print(colors.color(six.unichr(0x2581 + bar), fg=46, bg=124), end='')
-        else:
-            print(six.unichr(0x2580 + bar), end='')
-    print()
+        click.echo(colors.color(six.unichr(0x2581 + bar), fg=46, bg=124), nl=False)
+    click.echo(u'')

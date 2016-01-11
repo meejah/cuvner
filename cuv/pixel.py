@@ -1,16 +1,14 @@
 #!/usr/bin/env python
 
-from __future__ import print_function
-
 import sys
 import math
 import random
 import pkg_resources
 from os.path import split
 
-import six
 from PIL import Image, ImageDraw, ImageFont
 from cuv.analysis import CoverageAnalysis, create_analysis
+import click
 
 
 def pixel_vis(cfg, pixel_size, height, show_image):
@@ -32,7 +30,7 @@ def pixel_vis(cfg, pixel_size, height, show_image):
         try:
             covdata = create_analysis(cfg.data, fname)
         except Exception as e:
-            print("{}: {}".format(fname, e))
+            click.echo("{}: {}".format(fname, e))
             continue
 
         if biggest_prefix is None:
@@ -73,11 +71,11 @@ def pixel_vis(cfg, pixel_size, height, show_image):
     total_pixel_height = (pixel_size[1] * total_statements) + (len(coverage_data) * (fnt_height + 2))
 
     num_columns = int(math.ceil(total_pixel_height / float(maximum_height)))
-    print("need {} columns for {} lines".format(num_columns, total_statements))
+    click.echo(u"need {} columns for {} lines".format(num_columns, total_statements))
     # 3 for vertical 'total-coverage' bar on left
     width = (num_columns * column_width) + 3
     height = maximum_height
-    print("size: {}x{}".format(width, height))
+    click.echo(u"size: {}x{}".format(width, height))
     img = Image.new('RGBA', (width, height), (0, 0, 0, 255))
     draw = ImageDraw.Draw(img)
 
@@ -140,11 +138,7 @@ def pixel_vis(cfg, pixel_size, height, show_image):
                 except KeyError:
                     color = (255, 255, 0, 255)
 
-                try:
-                    text = six.u(value)
-                except UnicodeEncodeError:
-                    print("UNICODE ERROR!", value)
-                    text = ''
+                text = u'{}'.format(value)
 
                 fg_amt = 1
                 bg_amt = 7
@@ -179,12 +173,10 @@ def pixel_vis(cfg, pixel_size, height, show_image):
                     self.draw.rectangle((pos.x, pos.y, pos.x + pixel_size[0], pos.y + pixel_size[1]), fill=c)
                 pos.x += pixel_size[0]
             # we ensure there's at most one newline in "format"
-            if '\n' in text:
+            if u'\n' in text:
                 pos.y += pixel_size[1]
                 pos.x = self.origin.x
             if pos.y > maximum_height:
-                if pos.x - self.origin.x > 0:
-                    print(pos.x - self.origin.x, column_width, fname)
                 pos.y = 0
                 pos.x = self.origin.x + column_width
                 self.origin = Position(pos.x, pos.y)
@@ -216,12 +208,12 @@ def pixel_vis(cfg, pixel_size, height, show_image):
             highlight(open(fname, 'r').read(), get_lexer_by_name('python'), formatter=frmt)
 
     prct = float(total_statements - total_missing) / total_statements
-    print("total coverage: {}%".format(int(prct * 100)))
+    click.echo(u"total coverage: {}%".format(int(prct * 100)))
     prct_y = height * prct
     draw.rectangle([0, 0, 1, prct_y], fill=(0, 200, 0, 255))
     draw.rectangle([0, prct_y + 1, 1, height], fill=(200, 0, 0, 255))
     fname = 'coverage_cascade_pixel.png'
     img.save(fname)
-    print("wrote '{}'".format(fname))
+    click.echo(u"wrote '{}'".format(fname))
     if show_image:
         img.show()
