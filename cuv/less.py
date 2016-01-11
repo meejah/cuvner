@@ -68,18 +68,17 @@ def term_color(target_fname, cfg, style='monokai'):
 
     for (i, line) in enumerate(lines):
 #        assert type(line) is unicode
-        spaces = 0
-#        spaces = fill - len(colors.strip_color(line))
+        spaces = fill - len(colors.strip_color(line))
         spaces = u' ' * spaces
         if (i + 1) not in covdata.missing:
             if (i + 1) in covdata.excluded:
                 line = colors.strip_color(line)
-                click.echo(colors.color(six.unichr(0x258f), fg=46, bg=236) + colors.color(line + spaces, bg=236, fg=242), color=True)
+                click.echo(colors.color(u'\u258f', fg=46, bg=236) + colors.color(line + spaces, bg=236, fg=242), color=True)
             elif cfg.branch and (i + 1) in covdata.branch_lines():
                 line = colors.strip_color(line)
                 click.echo(colors.color(u'\u258f', bg=52, fg=160) + colors.color(line + spaces, bg=52), color=True)
             else:
-                click.echo(u'\u258f{}{}'.format(line, spaces), color=True)
+                click.echo(u'{}{}{}'.format(colors.color(u'\u258f', fg=46), line, spaces), color=True)
         else:
             # HACK-O-MATIC, uhm. Yeah, so what we're doing here is
             # splitting the output from the formatter on the ANSI
