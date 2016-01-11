@@ -74,7 +74,10 @@ def graph_coverage(keywords, cfg):
     last_fname = None
     last_prefix = 0
     for fname in file_coverage:
-        data = create_analysis(cfg.data, fname)
+        try:
+            data = create_analysis(cfg.data, fname)
+        except Exception as e:
+            click.echo(u"error: {}: {}".format(fname, e))
         short = fname[common:]
         graph = ''
         glyphs = 0
@@ -101,12 +104,12 @@ def graph_coverage(keywords, cfg):
 
             if glyphs >= graph_width:
                 if printed_fname:
-                    click.echo(u'{} {}'.format(u' ' * max_fname, graph).encode('utf8'))
+                    click.echo(u'{} {}'.format(u' ' * max_fname, graph), color=True)
                 else:
                     printed_fname = True
                     thisname = (u' ' * last_prefix) + short[last_prefix:]
                     thisname = click.style(fname[common:common + last_prefix], fg='black') + click.style(short[last_prefix:], bold=True)
-                    click.echo(u'{}{} {}'.format(thisname, u' ' * (max_fname - len(short)), graph).encode('utf8'))
+                    click.echo(u'{}{} {}'.format(thisname, u' ' * (max_fname - len(short)), graph), color=True)
                     last_prefix = 0
                 graph = ''
                 glyphs = 0
@@ -119,11 +122,11 @@ def graph_coverage(keywords, cfg):
             graph = click.style('no statements', dim=True, fg='black')
 
         if printed_fname:
-            click.echo(u'{} {}'.format(u' ' * max_fname, graph).encode('utf8'))
+            click.echo(u'{} {}'.format(u' ' * max_fname, graph), color=True)
         else:
             printed_fname = True
             thisname = (u' ' * last_prefix) + short[last_prefix:]
             thisname = click.style(fname[common:common + last_prefix], fg='black') + click.style(short[last_prefix:], bold=True)
-            click.echo(u'{}{} {}'.format(thisname, u' ' * (max_fname - len(short)), graph).encode('utf8'))
+            click.echo(u'{}{} {}'.format(thisname, u' ' * (max_fname - len(short)), graph), color=True)
         graph = ''
         glyphs = 0
