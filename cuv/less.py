@@ -77,7 +77,7 @@ def term_color(target_fname, cfg, style='monokai'):
                 click.echo(colors.color(six.unichr(0x258f), fg=46, bg=236) + colors.color(line + spaces, bg=236, fg=242), color=True)
             elif cfg.branch and (i + 1) in covdata.branch_lines():
                 line = colors.strip_color(line)
-                click.echo(colors.color(u'\u258f{}', bg=52, fg=160) + colors.color(line + spaces, bg=52), color=True)
+                click.echo(colors.color(u'\u258f', bg=52, fg=160) + colors.color(line + spaces, bg=52), color=True)
             else:
                 click.echo(u'\u258f{}{}'.format(line, spaces), color=True)
         else:
@@ -90,7 +90,7 @@ def term_color(target_fname, cfg, style='monokai'):
             segments = (line + spaces).split(reset_code)
             reset_plus_bg = u"\x1b[39;49;00m\x1b[39;49;48;5;52m"
             out = u"\x1b[39;49;48;5;52m" + reset_plus_bg.join(segments)
-            click.echo(colors.color(u'\u258f{}', bg=52, fg=160) + out, color=True)
+            click.echo(colors.color(u'\u258f', bg=52, fg=160) + out, color=True)
             # (on the plus side: this preserves syntax-highlighting
             # while also getting a backgroundc color on the whole
             # line)
