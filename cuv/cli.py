@@ -11,6 +11,7 @@ from cuv.histogram import histogram_coverage
 from cuv.less import term_color
 from cuv.graph import graph_coverage
 from cuv.pixel import pixel_vis
+from cuv.diff import diff_color
 
 
 class Config(object):
@@ -221,6 +222,32 @@ def lessopen(ctx, input_file):
     except IOError:
         # ignore broken pipes
         pass
+
+
+@cuv.command()
+@click.argument(
+    'input_file',
+    type=click.File('r'),
+    nargs=1,
+    required=False,
+)
+@click.pass_context
+def diff(ctx, input_file):
+    """
+    Color a diff by its coverage.
+
+    For example, to see if your local changes are covered in a Git
+    checkout, you can try commands like:
+
+       git diff | cuv diff -
+       git diff master...HEAD | cuv diff -
+
+    """
+    if input_file is None:
+        click.echo(diff.get_help(ctx))
+        return
+
+    diff_color(input_file, ctx.obj)
 
 
 @cuv.command()

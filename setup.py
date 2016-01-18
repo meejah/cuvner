@@ -20,6 +20,7 @@ setup(
         'six',
         'Pillow',
         'incremental',
+        'unidiff',
     ],
     author='meejah',
     author_email='meejah@meejah.ca',
