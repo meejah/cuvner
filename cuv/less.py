@@ -6,6 +6,7 @@
 
 from __future__ import print_function, absolute_import
 
+import sys
 import math
 from os.path import abspath
 
@@ -31,9 +32,13 @@ def term_color(target_fname, cfg, style='monokai'):
 
     if len(match) != 1:
         if len(match) == 0:
-            raise RuntimeError(
-                "Can't find any files matching '%s'." % target_fname
-            )
+            # this file wasn't in the coverage data, so we just dump
+            # it to stdout as-is. (FIXME: ideally, also
+            # syntax-highlighted anyway)
+            with open(target_fname, 'r') as f:
+                for line in f.readlines():
+                    sys.stdout.write(line)
+            return
         else:
             raise RuntimeError("Multiple matches: %s" % ', '.join(match))
 

@@ -52,6 +52,7 @@ class Config(object):
             if self.exclude:
                 for ex in self.exclude:
                     if ex in fname:
+                        print("excluding:", fname)
                         return True
             if keywords:
                 found = False
