@@ -120,6 +120,25 @@ TODO:
  - dark/light background option?
 
 
+``cuv diff``
+~~~~~~~~~~~~
+
+You can pipe a ``git diff`` to this and see a colorized version of the
+diff in your console. I am using a library called `unidiff`_ to read
+the actual diff, which so far works quite nicely. That said, I've only
+tried against the output of Git, like so::
+
+   git diff | cuv diff | less
+
+TODO:
+
+ - colors are unsatisfying, since for added lines they're pretty much
+   the same as Git's colored output
+ - maybe make it look more like the "real" underlying diff?
+   (e.g. re-create the @@ and so forth things)
+ - does it work with merge commits?
+
+
 ``cuv spark``
 ~~~~~~~~~~~~~
 
@@ -208,3 +227,4 @@ don't want to try and install a Python GUI application...
 .. _ansicolors: https://github.com/verigak/colors/
 .. _svgwrite: https://pythonhosted.org/svgwrite/
 .. _crossbar.io: http://crossbar.io
+.. _unidiff: https://github.com/matiasb/python-unidiff
