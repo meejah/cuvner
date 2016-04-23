@@ -60,6 +60,20 @@ pull-reqeusts fixing these. That said, a unicode-capable shell is a
 must.
 
 
+Other Neat Visualizations
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Other nice "coverage visualization" tools I've run across:
+
+- of course, `Coverage.py
+  <http://coverage.readthedocs.org/en/latest/>`_ itself comes with a
+  nice HTML visualization
+- `emacs-coverage <https://github.com/trezona-lecomte/coverage>`_
+- `codecov.io browser extension
+  <https://github.com/codecov/browser-extension>`_ shows coverage live
+  while browsing github
+
+
 Notes on Tox
 ------------
 
