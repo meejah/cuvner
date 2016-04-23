@@ -13,6 +13,13 @@ Please see the README.
 
    README.rst
 
+Auto Sphinx Command Tests
+-------------------------
+
+.. cuv_command:: pixel
+
+.. cuv_command:: lessopen
+
 
 
 Indices and tables

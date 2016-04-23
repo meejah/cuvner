@@ -22,6 +22,11 @@ setup(
         'incremental',
         'unidiff',
     ],
+    extras_require={
+        "dev": [
+            "Sphinx",
+        ]
+    },
     author='meejah',
     author_email='meejah@meejah.ca',
     url='https://meejah.ca/projects/cuvner',
