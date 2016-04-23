@@ -16,8 +16,6 @@ from cuv.util import print_banner
 from unidiff import PatchSet
 
 
-
-
 def diff_color(input_file, cfg):
     """
     colorizes a diff file
@@ -29,26 +27,41 @@ def diff_color(input_file, cfg):
     measured = cov.data.measured_files()
     diff = PatchSet(input_file)
     for thing in diff:
-        if thing.is_modified_file:
-            if abspath(thing.target_file) in measured:
-                covdata = cov._analyze(abspath(thing.target_file))
+        if thing.is_modified_file or thing.is_added_file:
+            target = thing.target_file
+            if target.startswith('b/') or target.startswith('a/'):
+                target = target[2:]
+            if abspath(target) in measured:
+                covdata = cov._analyze(abspath(target))
                 modified.append((thing, covdata))
+                print(abspath(target))
             else:
                 msg = "skip: {}".format(thing.target_file)
                 msg = msg + (' ' * (term_width - len(msg)))
                 print(colors.color(msg, bg='yellow', fg='black'))
+#        else:
+#            print("THING", dir(thing))
 
     for (patch, covdata) in modified:
         fname = str(patch.target_file) + (' ' * (term_width - len(patch.target_file)))
         print(colors.color(fname, bg='cyan', fg='black'))
         for hunk in patch:
             for line in hunk:
-                if line.is_context or line.is_removed:
-                    print(line)
-                elif line.target_line_no in covdata.missing:
-                    print(colors.red(str(line)))
+                kw = dict()
+                if line.is_added:
+                    if line.target_line_no in covdata.missing:
+                        click.echo(colors.color(u'\u258f', fg='red', bg=52), nl=False, color=True)
+                        kw['bg'] = 52
+                    else:
+                        click.echo(colors.color(u'\u258f', fg='green'), nl=False, color=True)
                 else:
-                    print(colors.green(str(line)))
+                    print(' ', end='')
+                out = str(line)
+                if line.is_added:
+                    kw['fg'] = 'green'
+                elif line.is_removed:
+                    kw['fg'] = 'red'
+                print(colors.color(out, **kw))
     return
 
     target_fname = abspath(target_fname)
