@@ -16,9 +16,11 @@ Please see the README.
 Auto Sphinx Command Tests
 -------------------------
 
-.. cuv_command:: pixel
+.. click_command:: cuv pixel
 
-.. cuv_command:: lessopen
+.. click_command:: cuv lessopen
+
+.. click_command:: cuv diff
 
 
 
