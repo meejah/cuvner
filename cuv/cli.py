@@ -1,5 +1,5 @@
-
 import sys
+import os
 import click
 import colors
 import coverage
@@ -12,7 +12,6 @@ from cuv.less import term_color
 from cuv.graph import graph_coverage
 from cuv.pixel import pixel_vis
 from cuv.diff import diff_color
-
 
 class Config(object):
     '''
@@ -47,7 +46,7 @@ class Config(object):
         def filter(fname):
             if not fname.endswith('.py'):
                 return True
-            if [x for x in fname.split('/') if x.startswith('test')]:
+            if [x for x in fname.split(os.path.sep) if x.startswith('test')]:
                 return True
             if self.exclude:
                 for ex in self.exclude:

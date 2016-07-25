@@ -8,7 +8,7 @@ from __future__ import print_function, absolute_import
 
 import sys
 import math
-from os.path import abspath
+from os.path import realpath
 
 import colors
 import click
@@ -23,24 +23,20 @@ from cuv.util import print_banner
 
 def term_color(target_fname, cfg, style='monokai'):
     cov = cfg.data
-    match = []
+    target_fname = realpath(target_fname)
 
-    target_fname = abspath(target_fname)
-    for fname in cov.data.measured_files():
-        if target_fname == abspath(fname):
-            match.append(fname)
+    match = filter( lambda f: target_fname == realpath(f), cov.data.measured_files() )
 
-    if len(match) != 1:
-        if len(match) == 0:
-            # this file wasn't in the coverage data, so we just dump
-            # it to stdout as-is. (FIXME: ideally, also
-            # syntax-highlighted anyway)
-            with open(target_fname, 'r') as f:
-                for line in f.readlines():
-                    sys.stdout.write(line)
-            return
-        else:
-            raise RuntimeError("Multiple matches: %s" % ', '.join(match))
+    if len(match) > 1:
+        raise RuntimeError("Multiple matches: %s" % ', '.join(match))
+
+    if len(match) == 0:
+        # this file wasn't in the coverage data, so we just dump
+        # it to stdout as-is. (FIXME: ideally, also
+        # syntax-highlighted anyway)
+        with open(target_fname, 'r') as f:
+            sys.stdout.write( f.read() )
+        return
 
     fname = match[0]
     covdata = cov._analyze(fname)
