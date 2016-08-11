@@ -90,7 +90,7 @@ def term_color(target_fname, cfg, style='monokai'):
             segments = (line + spaces).split(reset_code)
             reset_plus_bg = u"\x1b[39;49;00m\x1b[39;49;48;5;52m"
             out = u"\x1b[39;49;48;5;52m" + reset_plus_bg.join(segments)
-            click.echo(colors.color(u'\u258f', bg=52, fg=160) + out, color=True)
+            click.echo(colors.color(u'\u258c', bg=52, fg=160) + out, color=True)
             # (on the plus side: this preserves syntax-highlighting
             # while also getting a backgroundc color on the whole
             # line)

@@ -83,6 +83,9 @@ def graph_coverage(keywords, cfg):
         glyphs = 0
         printed_fname = False
         bad = total = 0
+        percent = 100.0  # if no statements, it's all covered, right?
+        if data.statements:
+            percent = (1.0 - (len(data.missing) / float(len(data.statements)))) * 100.0
         if last_fname is not None:
             last_prefix = 0
             for (a, b) in zip(last_fname.split('/'), short.split('/')):
@@ -109,7 +112,18 @@ def graph_coverage(keywords, cfg):
                     printed_fname = True
                     thisname = (u' ' * last_prefix) + short[last_prefix:]
                     thisname = click.style(fname[common:common + last_prefix], fg='black') + click.style(short[last_prefix:], bold=True)
-                    click.echo(u'{}{} {}'.format(thisname, u' ' * (max_fname - len(short)), graph), color=True)
+                    click.echo(
+                        u'{}{} {} {}'.format(
+                            thisname,
+                            u' ' * (max_fname - len(short)),
+                            click.style(
+                                u'{:3d}'.format(int(percent)),
+                                fg='red' if percent < 60 else 'magenta' if percent < 80 else 'green',
+                            ),
+                            graph,
+                        ),
+                        color=True,
+                    )
                     last_prefix = 0
                 graph = ''
                 glyphs = 0
@@ -127,6 +141,17 @@ def graph_coverage(keywords, cfg):
             printed_fname = True
             thisname = (u' ' * last_prefix) + short[last_prefix:]
             thisname = click.style(fname[common:common + last_prefix], fg='black') + click.style(short[last_prefix:], bold=True)
-            click.echo(u'{}{} {}'.format(thisname, u' ' * (max_fname - len(short)), graph), color=True)
+            click.echo(
+                u'{}{} {} {}'.format(
+                    thisname,
+                    u' ' * (max_fname - len(short)),
+                    click.style(
+                        u'{:3d}'.format(int(percent)),
+                        fg='red' if percent < 60 else 'magenta' if percent < 80 else 'green',
+                    ),
+                    graph,
+                ),
+                color=True,
+            )
         graph = ''
         glyphs = 0
