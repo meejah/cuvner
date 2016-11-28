@@ -164,81 +164,12 @@ single character, and its percentage coverage is graphed (so you only
 get granularity down to about 12.5%).
 
 
-Graphical Visualizations
-------------------------
-
-``cuv hist``
-~~~~~~~~~~~~
-
-``cuv hist`` produces an SVG-based "histogram" type of display,
-showing every line in all your files. Each little vertical bar
-represents a single line of course code, and is red if it was not
-covered or yellow if it was partially covered (only when you enable
-``--branch`` coverage).
-
-You may view this in Firefox, for example.
-
-TODO:
-
- - figure out how to display the text better
- - options for the size or aspect ratio desired
- - file size is huge; can we do better?
- - is an image really the better way to go (size-wise)?
-
-
-``cuv pixel``
-~~~~~~~~~~~~~
-
-(Very much in-progress, just proof-of-concept at the moment). Produces
-a very-tiny representation of every line of your code, organized into
-80-character wide columns with each pixel (or 2x2, 1x1, or 2x1 square)
-representing a single character of source code, syntax-highlighted and
-coloured by coverage data. So, this shows the overall "shape" of your
-code along with coverage information.
-
-For a small project (e.g. `txtorcon`_) this works fairly well -- in
-fact, ever "unreadably small" fonts can be used per-glyph and still
-fit on a single screen. For a larger project (e.g. `Twisted`_, over
-350k lines of code) this is a bit more problemmatic -- however, with 1
-pixel per glyph and 80-character width you can still get the *entire*
-project visualized on two screenfulls of a 3840x2160 display, albeit
-with a nearly 10MB png image...
-
-In between those two, `Crossbar.io`_ -- which weighs in at ~112k lines
-of code -- can easily fit on a single macbook display.
-
-Still, I'm not sure if it's really *useful* but does look kind of
-neat. What *would* be useful is to have more interactivity -- e.g. a
-single-screen "overview" that had mouse-over effects to zoom in on
-particular bits of code, shown in a "real" font...
-
-
-``cuv html``
-~~~~~~~~~~~~
-
-This is a rough proof-of-concept of the "interactive" ideas discussed
-above in the ``cuv pixel``. What it does is render each covered file
-into a syntax- and coverage- highlighted PNG image and spits out an
-"overview" HTML page with javascript that can zoom in on the lines as
-you mouse-over them.
-
-Now, this would almost certainly work way better and faster for local
-developers as a GTK+/Qt "native" application -- but a Web-based thing
-was fairly fast to prototype, *and* has the advantage that you can
-publish it easily as part of your project for visitors who probably
-don't want to try and install a Python GUI application...
-
-
-
 .. _tox: https://tox.readthedocs.org/en/latest/
 .. _coverage: https://coverage.readthedocs.org/en/latest/
 .. _pygments: http://pygments.org/
 .. _Twisted: https://twistedmatrix.org/
 .. _txtorcon: https://meejah.ca/projects/txtorcon
-.. _Pillow: https://python-pillow.github.io/
 .. _Click: http://click.pocoo.org/
 .. _Source Code Pro: http://adobe-fonts.github.io/source-code-pro/
 .. _ansicolors: https://github.com/verigak/colors/
-.. _svgwrite: https://pythonhosted.org/svgwrite/
-.. _crossbar.io: http://crossbar.io
 .. _unidiff: https://github.com/matiasb/python-unidiff
