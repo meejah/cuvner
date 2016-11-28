@@ -31,6 +31,7 @@ def term_color(target_fname, cfg, style='monokai'):
         raise RuntimeError("Multiple matches: %s" % ', '.join(match))
 
     if len(match) == 0:
+        print("not in coverage")
         # this file wasn't in the coverage data, so we just dump
         # it to stdout as-is. (FIXME: ideally, also
         # syntax-highlighted anyway)
@@ -71,6 +72,7 @@ def term_color(target_fname, cfg, style='monokai'):
 #        assert type(line) is unicode
         spaces = fill - len(colors.strip_color(line))
         spaces = u' ' * spaces
+        # GAH this off-by-one crap again
         if (i + 1) not in covdata.missing:
             if (i + 1) in covdata.excluded:
                 line = colors.strip_color(line)
