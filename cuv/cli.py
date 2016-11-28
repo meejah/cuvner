@@ -5,11 +5,16 @@ import colors
 import coverage
 import pkg_resources
 
+from pygments import highlight
+from pygments.formatters import TerminalFormatter
+from pygments.lexers import get_lexer_by_name
+
 from cuv.util import find_coverage_data, timer
 from cuv.spark import spark_coverage
 from cuv.less import term_color
 from cuv.graph import graph_coverage
 from cuv.diff import diff_color, diff_coverage_files
+
 
 class Config(object):
     '''
@@ -120,7 +125,11 @@ def readme():
     View the README
     """
     click.echo_via_pager(
-        pkg_resources.resource_string("cuv", "README.rst")
+        highlight(
+            pkg_resources.resource_string("cuv", "README.rst"),
+            get_lexer_by_name('rst'),
+            formatter=TerminalFormatter(),
+        )
     )
 
 
