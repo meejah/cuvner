@@ -7,10 +7,8 @@ import pkg_resources
 
 from cuv.util import find_coverage_data, timer
 from cuv.spark import spark_coverage
-from cuv.histogram import histogram_coverage
 from cuv.less import term_color
 from cuv.graph import graph_coverage
-from cuv.pixel import pixel_vis
 from cuv.diff import diff_color, diff_coverage_files
 
 class Config(object):
@@ -143,36 +141,6 @@ def graph(cfg, keyword):
 
 
 @cuv.command()
-@click.option(
-    '--size', '-s',
-    help='size of glyphs: 1x1, 1x2, 2,2',
-    type=click.Choice(['small', 'medium', 'large']),
-    default='small'
-)
-@click.option(
-    '--height', '-H',
-    help='Target height of image',
-    type=int,
-    default=1800,
-)
-@click.option(
-    '--show/--no-show',
-    default=False,
-)
-@click.pass_obj
-def pixel(cfg, size, height, show):
-    """
-    Minimalist view of all code + coverage
-    """
-    pixel_size = {
-        "small": (1, 1),
-        "medium": (1, 2),
-        "large": (2, 2),
-    }[size]
-    pixel_vis(cfg, pixel_size, height, show)
-
-
-@cuv.command()
 @click.argument(
     'input_file',
     type=click.File('r'),
@@ -282,23 +250,6 @@ def spark(cfg, keyword, sort):
     """
     try:
         spark_coverage(keyword, cfg, sort=sort)
-    except IOError:
-        # ignore broken pipes
-        pass
-
-
-@cuv.command()
-@click.argument(
-    'keyword',
-    nargs=-1,
-)
-@click.pass_obj
-def hist(cfg, keyword):
-    """
-    SVG histogram of all covered lines
-    """
-    try:
-        histogram_coverage(keyword, cfg)
     except IOError:
         # ignore broken pipes
         pass
