@@ -79,8 +79,8 @@ provide a quick overview of a project's coverage.
 ``cuv graph``
 ~~~~~~~~~~~~~
 
-.. image:: ../screenshots/cuvner-graph-twisted.png
-    :alt: console graph, showing Twisted code
+.. image:: ../screenshots/cuvner-graph-txtorcon.png
+    :alt: console graph, showing txtorcon code
 
 This displays all the files in your project and a histogram-like graph
 of their coverage. Each character represents 8 lines of code, and uses

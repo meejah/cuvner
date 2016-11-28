@@ -30,8 +30,8 @@ Command Documentation
 
 .. click_command:: cuv graph
 
-.. image:: ../screenshots/cuvner-graph-twisted.png
-    :alt: console graph, showing Twisted code
+.. image:: ../screenshots/cuvner-graph-txtorcon.png
+    :alt: console graph, showing txtorcon code
 
 
 .. click_command:: cuv lessopen
