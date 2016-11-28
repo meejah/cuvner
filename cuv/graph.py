@@ -60,7 +60,7 @@ def graph_coverage(keywords, cfg):
 
     max_fname = max([len(nm) - common for nm in file_coverage])
     width = click.get_terminal_size()[0]
-    graph_width = width - 5 - max_fname
+    graph_width = width - 13 - max_fname
 
     def percent_to_bar(prct):
         # 0x2581 is _ like bar
@@ -154,7 +154,7 @@ def graph_coverage(keywords, cfg):
             graph = click.style('no statements', dim=True, fg='black')
 
         if printed_fname:
-            click.echo(u'{} {}'.format(u' ' * max_fname, graph), color=True)
+            click.echo(u'{} {}'.format(u' ' * (max_fname + 12), graph), color=True)
         else:
             printed_fname = True
             thisname = (u' ' * last_prefix) + short[last_prefix:]
