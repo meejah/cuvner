@@ -8,17 +8,15 @@ setup(
     name='cuvner',
     use_incremental=True,
     setup_requires=['incremental'],
-    description='A commanding view of your test-coverage.',
+    description='A commanding (terminal) view of your test-coverage.',
     long_description=open('cuv/README.rst', 'r').read(),
-    keywords=['python', 'twisted'],
+    keywords=['python', 'coverage'],
     install_requires=[
         'pygments',
         'click',
         'ansicolors',
         'coverage',
-        'svgwrite',
         'six',
-        'Pillow',
         'incremental',
         'unidiff',
     ],
@@ -37,8 +35,5 @@ setup(
         'console_scripts': [
             'cuv=cuv.cli:cuv',
         ],
-        'pygments.lexer': [
-            'pixel = cuv.formatter.PixelFormatter',
-        ]
     },
 )
