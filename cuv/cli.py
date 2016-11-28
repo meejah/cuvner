@@ -265,7 +265,7 @@ def diff(ctx, input_file):
 @click.pass_obj
 def spark(cfg, keyword, sort):
     """
-    Simple single-line terminal graph of coverage.
+    Single-line terminal graph of coverage.
     """
     try:
         spark_coverage(keyword, cfg, sort=sort)
