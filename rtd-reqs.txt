@@ -1,1 +1,8 @@
 incremental
+pygments
+click
+ansicolors
+coverage
+six
+incremental
+unidiff
