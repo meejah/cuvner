@@ -86,7 +86,7 @@ def diff_color(input_file, cfg):
                 modified.append((thing, covdata))
                 print(abspath(target))
             else:
-                msg = "skip: {}".format(thing.target_file)
+                msg = "skip: {}".format(target)
                 msg = msg + (' ' * (term_width - len(msg)))
                 print(colors.color(msg, bg='yellow', fg='black'))
 #        else:
