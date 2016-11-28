@@ -6,28 +6,50 @@
 cuv'ner
 =======
 
-Please see the README.
+"A commanding view of your test-coverage".
+
+The tool ``cuv`` provides console tools to show coverage data for you
+Python project nicely in the console. It uses colour and unicode
+characters.
+
+``cuv`` can:
+
+ - graph coverage of all files in your project;
+ - colour-ize individual source-code files (via ``less``) by their coverage;
+ - colour-ize ``diff`` (or e.g. ``git diff master..HEAD``) by coverage
+ - diff ``.coverage`` files themselves
+
 
 .. toctree::
    :maxdepth: 2
 
    README.rst
 
-Auto Sphinx Command Tests
--------------------------
+Command Documentation
+---------------------
 
-.. click_command:: cuv pixel
+.. click_command:: cuv graph
+
+.. image:: ../screenshots/cuvner-graph-twisted.png
+    :alt: console graph, showing Twisted code
+
 
 .. click_command:: cuv lessopen
 
+.. image:: ../screenshots/cuvner-lessopen-twisted.png
+    :alt: pygments + coverage coloring in console
+
+
 .. click_command:: cuv diff
 
+.. image:: ../screenshots/cuvner-diff-txtorcon.png
+    :alt: showing "cuv diff" colouring
 
 
-Indices and tables
-==================
+.. click_command:: cuv spark
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. image:: ../screenshots/cuvner-spark-txtorcon.png
+    :alt: spark-line coverage of txtorcon
 
+
+.. click_command:: cuv readme

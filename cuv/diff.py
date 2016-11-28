@@ -85,7 +85,7 @@ def diff_color(input_file, cfg):
                 if abspath(target) in measured:
                     covdata = cov._analyze(abspath(target))
                     modified.append((thing, covdata))
-                    pager.echo(abspath(target))
+#                    pager.echo(abspath(target))
                 else:
                     msg = "skip: {}".format(target)
                     msg = msg + (' ' * (term_width - len(msg)))
