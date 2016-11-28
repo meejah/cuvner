@@ -13,11 +13,10 @@ documented below (or just type ``cuv`` to explore the help).
 We utilize several quality open-source packages to achieve this:
 
  - `coverage`_ by Ned Batchelder
- - `Click`_ by Armin Ronacher
- - `pygments`_
- - `ansicolors`_
- - `Pillow`_
- - `svgwrite`_
+ - `Click`_ by Armin Ronacher / pocoo
+ - `pygments`_ by Georg Brandl / pocoo
+ - `ansicolors`_ by Giorgos Verigakis
+ - `unidiff`_ by Matias Bordese
  - `Source Code Pro`_: the best programming font
 
 .. image:: ../screenshots/cuvner-graph-twisted.png
@@ -31,6 +30,7 @@ We utilize several quality open-source packages to achieve this:
 
 Code: https://github.com/meejah/cuvner
 Docs: https://cuvner.readthedocs.org
+
 
 Background + Terminology
 ------------------------
