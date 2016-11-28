@@ -19,15 +19,6 @@ We utilize several quality open-source packages to achieve this:
  - `unidiff`_ by Matias Bordese
  - `Source Code Pro`_: the best programming font
 
-.. image:: ../screenshots/cuvner-graph-twisted.png
-    :alt: console graph, showing Twisted code
-
-.. image:: ../screenshots/cuvner-lessopen-twisted.png
-    :alt: pygments + coverage coloring in console
-
-.. image:: ../screenshots/cuvner-histogram-twisted.png
-    :alt: histogram view, Twisted code
-
 Code: https://github.com/meejah/cuvner
 Docs: https://cuvner.readthedocs.org
 
@@ -37,21 +28,12 @@ Background + Terminology
 
 This started out as some experiments in "whole-project coverage
 visualization", and then also grew some console tools that I find
-useful when working with Python code. There are a few hack-job
-proof-of-concept visualizations in the works as well.
+useful when working with Python code.
 
-Modern MacBooks have resolution up to 2880x1800, and 4k displays can
-be something like 3840x2160 -- I thought it might be interesting to
-try and view the coverage of a "whole project at once". Some of these
-experiments can be seen with ``cuv pixel``.
-
-Whenever I say "line", I mean a "statement" as defined by coverage.py
--- this just means we ignore all comments and other non-code lines in
-the visualizations. So, each file will usually appear to have far
-fewer total lines than if you ran ``wc`` or ``ohcount`` against it.
-
-Although I've done some code-cleanups and rudimentary testing, this
-"works for me" but might not "work for your setup" ;)
+I have abandoned the pixel/graphical visualization ideas and
+proofs-of-concepts into a branch and now this tool is `just` the
+console visualizations -- which are very useful when working on Python
+code.
 
 As far as my setup, I am using Debian with a 256-color and unicode
 capable shell using Solarized Dark color schemes. There are probably
@@ -88,11 +70,17 @@ Console Visualizations
 ----------------------
 
 The two main tools usable directly in the console are ``cuv graph``
-and ``cuv lessopen``. ``cuv spark`` can provide some amusement as well.
+and ``cuv lessopen`` (which can be tied directly into ``less`` via the
+``LESSOPEN`` environment variable). For determining coverage of
+branches or individual commits, use ``cuv diff``. ``cuv spark`` can
+provide a quick overview of a project's coverage.
 
 
 ``cuv graph``
 ~~~~~~~~~~~~~
+
+.. image:: ../screenshots/cuvner-graph-twisted.png
+    :alt: console graph, showing Twisted code
 
 This displays all the files in your project and a histogram-like graph
 of their coverage. Each character represents 8 lines of code, and uses
@@ -114,6 +102,9 @@ TODO:
 
 ``cuv lessopen``
 ~~~~~~~~~~~~~~~~
+
+.. image:: ../screenshots/cuvner-lessopen-twisted.png
+    :alt: pygments + coverage coloring in console
 
 This command is intended to be used via the ``LESSOPEN`` environment
 variable, which lets you pre-process files that are opened with
@@ -137,6 +128,9 @@ TODO:
 ``cuv diff``
 ~~~~~~~~~~~~
 
+.. image:: ../screenshots/cuvner-diff-txtorcon.png
+    :alt: showing "cuv diff" colouring
+
 You can pipe a ``git diff`` to this and see a colorized version of the
 diff in your console. I am using a library called `unidiff`_ to read
 the actual diff, which so far works quite nicely. That said, I've only
@@ -155,6 +149,9 @@ TODO:
 
 ``cuv spark``
 ~~~~~~~~~~~~~
+
+.. image:: ../screenshots/cuvner-spark-txtorcon.png
+    :alt: spark-line coverage of txtorcon
 
 This shows a "spark-line" sort of thing in the console. It's not very
 useful for big projects (e.g. Twisted), but gives a very quick
