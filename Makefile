@@ -7,7 +7,7 @@ version: venv
 
 venv: setup.py
 	-virtualenv venv
-	./venv/bin/pip install --editable .
+	./venv/bin/pip install --editable .[dev]
 	echo ${VERSION}
 
 dist: dist/cuvner-${VERSION}-py2-none-any.whl
