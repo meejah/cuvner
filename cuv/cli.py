@@ -11,7 +11,7 @@ from cuv.histogram import histogram_coverage
 from cuv.less import term_color
 from cuv.graph import graph_coverage
 from cuv.pixel import pixel_vis
-from cuv.diff import diff_color
+from cuv.diff import diff_color, diff_coverage_files
 
 class Config(object):
     '''
@@ -222,6 +222,22 @@ def lessopen(ctx, input_file):
     except IOError:
         # ignore broken pipes
         pass
+
+@cuv.command()
+@click.argument(
+    "input_files",
+    type=click.File('r'),
+    nargs=2,
+    required=True,
+)
+@click.pass_context
+def diffcuv(ctx, input_files):
+    """
+    Given two .coverage files as input, this displays the difference
+    in lines covered.
+    """
+    assert len(input_files) == 2
+    diff_coverage_files(input_files[0].name, input_files[1].name, ctx.obj)
 
 
 @cuv.command()

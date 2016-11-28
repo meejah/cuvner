@@ -12,8 +12,58 @@ from pygments import highlight
 from pygments.formatters import Terminal256Formatter, TerminalFormatter
 from pygments.lexers import get_lexer_by_name
 
+import coverage
+
+from cuv.analysis import CoverageAnalysis, create_analysis
 from cuv.util import print_banner
 from unidiff import PatchSet
+
+def diff_coverage_files(file_a, file_b, cfg):
+    """
+    This shows the difference in lines covered between two coverage files
+    """
+
+    data_a = coverage.Coverage(data_file=file_a)
+    data_a.load()
+
+    data_b = coverage.Coverage(data_file=file_b)
+    data_b.load()
+
+    files_a = set(data_a.data.measured_files())
+    files_b = set(data_b.data.measured_files())
+    common_files = files_a.intersection(files_b)
+
+    click.echo(
+        "Comparing {} vs {}".format(
+            click.style(file_a, fg='red'),
+            click.style(file_b, fg='green'),
+        )
+    )
+
+    for fname in common_files:
+        a = create_analysis(data_a, fname)
+        b = create_analysis(data_b, fname)
+        a_has = []
+        b_has = []
+
+        if a.statements != b.statements:
+            print("{}: statement mismatch".format(fname))
+        else:
+            for x in a.statements:
+                if x in a.missing:
+                    if x not in b.missing:
+                        b_has.append(x)
+                else:
+                    if x in b.missing:
+                        a_has.append(x)
+            if a_has != [] or b_has != []:
+                print(
+                    "{}: {} vs. {}".format(
+                        fname,
+                        click.style(','.join([str(s) for s in a_has]), fg='red'),
+                        click.style(','.join([str(s) for s in b_has]), fg='green'),
+                    )
+                )
 
 
 def diff_color(input_file, cfg):
