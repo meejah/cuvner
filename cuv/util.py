@@ -23,6 +23,43 @@ def timer(name):
     return _timer()
 
 
+class _PagedEcho(object):
+    """
+    Interal helper for paged_echo()
+    """
+    def __init__(self):
+        self._lines = []
+
+    def echo(self, message=None, file=None, nl=True, err=False, color=None):
+        if nl:
+            self._lines.append('{}\n'.format(message))
+        else:
+            self._lines.append(message)
+
+        if file is not None:
+            raise Exception("Unsupported kwarg 'file='")
+        if err:
+            raise Exception("Unsupported kwarg 'err='")
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, a, b, c):
+        click.echo_via_pager(''.join(self._lines), color=True)
+
+
+def paged_echo():
+    """
+    Unfortunately, to use .echo_via_pager() in Click, you have to feed
+    it all of the lines at once.
+
+    This returns a context-manager that lets you incrementally call
+    '.echo' (same as 'click.echo') incrementally, only outputting (to
+    the pager) when the context closes.
+    """
+    return _PagedEcho()
+
+
 def find_coverage_data(d):
     """
     Recursively ascends directories looking for a .coverage file,
