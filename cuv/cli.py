@@ -98,8 +98,10 @@ def cuv(ctx, coverage_fname, exclude, branch):
     """
     Cuv'ner provides ways to visualize your project's coverage data.
 
-    The console commands (e.g. "cuv graph" and "cuv lessopen")
-    generally assume a unicode and 256-color capable terminal.
+    Everything works on the console and assumes a unicode and
+    256-color capable terminal. There must be a .coverage file which
+    is loaded for coverage data; it is assumed to be in the top level
+    of your source code checkout.
     """
     if coverage_fname is None:
         coverage_fname = find_coverage_data('.')
@@ -141,7 +143,7 @@ def readme():
 @click.pass_obj
 def graph(cfg, keyword):
     """
-    Console graph of each file's coverage
+    Console graph of each file's coverage.
     """
     try:
         graph_coverage(keyword, cfg)
@@ -210,8 +212,10 @@ def lessopen(ctx, input_file):
 @click.pass_context
 def diffcuv(ctx, input_files):
     """
-    Given two .coverage files as input, this displays the difference
-    in lines covered.
+    Difference between two given .coverage files.
+
+    This will show you which lines are covered by one of the coverage
+    files but not the other (or vice-versa).
     """
     assert len(input_files) == 2
     diff_coverage_files(input_files[0].name, input_files[1].name, ctx.obj)
@@ -229,12 +233,18 @@ def diff(ctx, input_file):
     """
     Color a diff by its coverage.
 
+    This prints out the whole diff as you would expect, but any added
+    ("+") lines in the diff get a red background if they are not
+    covered.
+
     For example, to see if your local changes are covered in a Git
-    checkout, you can try commands like:
+    checkout:
 
        git diff | cuv diff -
-       git diff master...HEAD | cuv diff -
 
+    To see if your whole branch is covered:
+
+       git diff master...HEAD | cuv diff -
     """
     if input_file is None:
         click.echo(diff.get_help(ctx))
@@ -255,7 +265,7 @@ def diff(ctx, input_file):
 @click.pass_obj
 def spark(cfg, keyword, sort):
     """
-    Draws a simple single-line terminal graph of coverage.
+    Simple single-line terminal graph of coverage.
     """
     try:
         spark_coverage(keyword, cfg, sort=sort)

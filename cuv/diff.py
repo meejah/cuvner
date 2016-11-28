@@ -148,10 +148,9 @@ def diff_color(input_file, cfg):
     # that's not a terrible idea, but the way TerminalFormatter is
     # written, it's not very nice. Basically, we'd have to wrap the
     # output stream, look for ANSI reset codes, and re-do the
-    # background color after each reset (for "uncovered" lines)...
-    # so I didn't do that. Instead we just hack it by clearing *all*
-    # formatting from the "uncovered" lines and make them all "grey on
-    # red"
+    # background color after each reset (for "uncovered" lines)...  so
+    # I didn't do that. Instead we just hack it by splitting on the
+    # reset codes (see below)
 
     formatter = TerminalFormatter(style=style)
     lines = highlight(
@@ -185,5 +184,5 @@ def diff_color(input_file, cfg):
             out = u"\x1b[39;49;48;5;52m" + reset_plus_bg.join(segments)
             click.echo(colors.color(u'\u258f', bg=52, fg=160) + out, color=True)
             # (on the plus side: this preserves syntax-highlighting
-            # while also getting a backgroundc color on the whole
+            # while also getting a background color on the whole
             # line)
