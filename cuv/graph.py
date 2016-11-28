@@ -73,6 +73,17 @@ def graph_coverage(keywords, cfg):
 
     last_fname = None
     last_prefix = 0
+
+    format_str = u'{:^%d} percent missing' % (max_fname + len('filename') - 4, )
+    click.echo(
+        format_str.format(
+            click.style('filename', bold=True)
+        )
+    )
+
+    total_lines = 0
+    total_missing = 0
+
     for fname in file_coverage:
         try:
             data = create_analysis(cfg.data, fname)
@@ -96,6 +107,10 @@ def graph_coverage(keywords, cfg):
                 last_prefix -= 1
         last_fname = short
 
+        total_lines += len(data.statements)
+        total_missing += len(data.missing)
+
+        # compute each glyph's total (i.e. each chunk of ~8 lines)
         for statement in data.statements:
             total += 1
             if statement in data.missing:
@@ -112,14 +127,17 @@ def graph_coverage(keywords, cfg):
                     printed_fname = True
                     thisname = (u' ' * last_prefix) + short[last_prefix:]
                     thisname = click.style(fname[common:common + last_prefix], fg='black') + click.style(short[last_prefix:], bold=True)
+                    # XXX unit-tests!! this only gets hit on really-long files
                     click.echo(
-                        u'{}{} {} {}'.format(
+                        u'{}{} {} {}/{} {}'.format(
                             thisname,
                             u' ' * (max_fname - len(short)),
                             click.style(
                                 u'{:3d}'.format(int(percent)),
                                 fg='red' if percent < 60 else 'magenta' if percent < 80 else 'green',
                             ),
+                            click.style(u'{}'.format(len(data.statements) - len(data.missing), fg='red')),
+                            click.style(u'{}'.format(len(data.statements), fg='green')),
                             graph,
                         ),
                         color=True,
@@ -141,17 +159,33 @@ def graph_coverage(keywords, cfg):
             printed_fname = True
             thisname = (u' ' * last_prefix) + short[last_prefix:]
             thisname = click.style(fname[common:common + last_prefix], fg='black') + click.style(short[last_prefix:], bold=True)
+            # XXX code nearly identical to this above...
+            if len(data.missing) > 0:
+                nice_missing = u' ({})'.format(click.style(u'{:5d}'.format(-len(data.missing)), fg='red'))
+            else:
+                nice_missing = u' ' * 8
+
             click.echo(
-                u'{}{} {} {}'.format(
+                u'{}{} {}{} {}'.format(
                     thisname,
                     u' ' * (max_fname - len(short)),
                     click.style(
                         u'{:3d}'.format(int(percent)),
                         fg='red' if percent < 60 else 'magenta' if percent < 80 else 'green',
                     ),
+                    #click.style(u' ({:5d})'.format(-len(data.missing)), fg='red'),
+                    nice_missing,
                     graph,
                 ),
                 color=True,
             )
         graph = ''
         glyphs = 0
+
+    click.echo(
+        u'From {} files: {} total lines, {} missing'.format(
+            len(file_coverage),
+            click.style(str(total_lines), fg='green'),
+            click.style(str(total_missing), fg='red'),
+        )
+    )
