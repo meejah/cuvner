@@ -14,6 +14,7 @@ from cuv.spark import spark_coverage
 from cuv.less import term_color
 from cuv.graph import graph_coverage
 from cuv.diff import diff_color, diff_coverage_files
+from cuv.watch import watch_coverage
 
 
 class Config(object):
@@ -295,4 +296,20 @@ def spark(cfg, keyword, sort):
         spark_coverage(keyword, cfg, sort=sort)
     except IOError:
         # ignore broken pipes
+        pass
+
+
+@cuv.command()
+@click.argument(
+    'keyword',
+    nargs=-1,
+)
+@click.pass_obj
+def watch(cfg, keyword):
+    """
+    Console graph of each file's coverage.
+    """
+    try:
+        watch_coverage(keyword, cfg)
+    except IOError:  # broken pipe, for example
         pass

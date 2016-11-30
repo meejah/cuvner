@@ -23,6 +23,18 @@ def timer(name):
     return _timer()
 
 
+def common_root_path(file_names):
+    """
+    returns the greatest-length common portion of the path in the
+    given collection of file-names
+    """
+    # I'm sure there's a better way ...
+    common = file_names[0]
+    for fname in file_names[1:]:
+        common = ''.join([x[0] for x in zip(common, fname) if x[0] == x[1]])
+    return common
+
+
 class _PagedEcho(object):
     """
     Interal helper for paged_echo()

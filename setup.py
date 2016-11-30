@@ -19,6 +19,7 @@ setup(
         'six',
         'incremental',
         'unidiff',
+        'watchdog',
     ],
     extras_require={
         "dev": [
