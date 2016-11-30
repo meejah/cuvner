@@ -14,7 +14,7 @@ from pygments import highlight
 from pygments.formatters import Terminal256Formatter, TerminalFormatter
 from pygments.lexers import get_lexer_by_name
 
-from cuv.util import print_banner, timer
+from cuv.util import print_banner, timer, common_root_path
 from cuv.analysis import CoverageAnalysis, create_analysis
 
 # XXX FIXME TODO
@@ -42,13 +42,7 @@ def graph_coverage(keywords, cfg):
     file_coverage.sort()
     diff = time.time() - start_time
 
-    common = file_coverage[0]
-    for fname in file_coverage[1:]:
-        common = ''.join([x[0] for x in zip(common, fname) if x[0] == x[1]])
-
-    click.echo("Coverage in: {}".format(common))
-
-    common = len(common)
+    common = len(common_root_path(file_coverage))
 
     if True:
         lines_per_col = 8

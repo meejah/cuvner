@@ -18,6 +18,7 @@ from cuv.analysis import CoverageAnalysis, create_analysis
 from cuv.util import print_banner, paged_echo
 from unidiff import PatchSet
 
+
 def diff_coverage_files(file_a, file_b, cfg):
     """
     This shows the difference in lines covered between two coverage files
@@ -29,16 +30,22 @@ def diff_coverage_files(file_a, file_b, cfg):
     data_b = coverage.Coverage(data_file=file_b)
     data_b.load()
 
-    files_a = set(data_a.data.measured_files())
-    files_b = set(data_b.data.measured_files())
-    common_files = files_a.intersection(files_b)
-
     click.echo(
         "Comparing {} vs {}".format(
             click.style(file_a, fg='red'),
             click.style(file_b, fg='green'),
         )
     )
+
+    diff_coverage_data(data_a, data_b, cfg)
+
+
+def diff_coverage_data(data_a, data_b, cfg):
+    """
+    """
+    files_a = set(data_a.data.measured_files())
+    files_b = set(data_b.data.measured_files())
+    common_files = files_a.intersection(files_b)
 
     for fname in common_files:
         a = create_analysis(data_a, fname)
