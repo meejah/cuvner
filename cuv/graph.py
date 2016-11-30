@@ -127,17 +127,22 @@ def graph_coverage(keywords, cfg):
                     printed_fname = True
                     thisname = (u' ' * last_prefix) + short[last_prefix:]
                     thisname = click.style(fname[common:common + last_prefix], fg='black') + click.style(short[last_prefix:], bold=True)
+
+                    # XXX also, all this duplicated code :(
+                    if len(data.missing) > 0:
+                        nice_missing = u' ({})'.format(click.style(u'{:5d}'.format(-len(data.missing)), fg='red'))
+                    else:
+                        nice_missing = u' ' * 8
                     # XXX unit-tests!! this only gets hit on really-long files
                     click.echo(
-                        u'{}{} {} {}/{} {}'.format(
+                        u'{}{} {}{} {}'.format(
                             thisname,
                             u' ' * (max_fname - len(short)),
                             click.style(
                                 u'{:3d}'.format(int(percent)),
                                 fg='red' if percent < 60 else 'magenta' if percent < 80 else 'green',
                             ),
-                            click.style(u'{}'.format(len(data.statements) - len(data.missing), fg='red')),
-                            click.style(u'{}'.format(len(data.statements), fg='green')),
+                            nice_missing,
                             graph,
                         ),
                         color=True,
