@@ -74,7 +74,19 @@ class Config(object):
                 yield fname
 
 
-@click.group()
+class DefaultCmdGroup(click.Group):
+    """
+    I make 'lessopen' the default command.
+    """
+    def get_command(self, ctx, cmd_name):
+        cmd = click.Group.get_command(self, ctx, cmd_name)
+        if cmd is None:
+            ctx.args.insert(0, cmd_name)
+            return click.Group.get_command(self, ctx, 'lessopen')
+        return cmd
+
+
+@click.group(cls=DefaultCmdGroup)
 @click.option(
     'coverage_fname',
     '--coverage', '-c',
@@ -175,9 +187,21 @@ def lessopen(ctx, input_file):
     'less' a file within a project that has coverage data, it will be
     syntax-highlighted and coloured according to coverage.
     """
+
     if input_file is None:
-        click.echo(lessopen.get_help(ctx))
-        return
+        # okay, we go through some contortions here to allow "cuv
+        # lessopen foo/bar.py" to also work if you just do "cuv
+        # foo/bar.py" (i.e. make 'lessopen' the default
+        # subcommand). See DefaultCmdGroup which does the lookup.
+        if ctx.parent is not None and len(ctx.parent.args):
+            try:
+                input_file = open(ctx.parent.args[0], 'r')
+            except IOError as e:
+                click.echo(str(e), file=sys.stderr)
+                return
+        else:
+            click.echo(lessopen.get_help(ctx))
+            return
 
     filename = input_file.name
 
