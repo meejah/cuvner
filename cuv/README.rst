@@ -66,6 +66,22 @@ coverage files will -- depending upon setup -- end up in
 the top-level of your project for ease-of-use.
 
 
+Pro Tip(tm)
+-----------
+
+The "uncovered" lines start with a slightly different unicode
+character than the "covered" lines, so if you're trying to write tests
+for uncovered things, you can do this on the "next file that has
+uncovered things":
+
+``cuv src/file.py | less -p ▌ -j 4``
+
+That says (since ``cuv lessopen`` is the "default" command) to run
+``cuv lessopen`` on ``src/file.py`` and then , in less, jump to the
+first uncovered line and place it 4 lines below the top of the
+screen. You can then hit ``n`` in less to go to the next one.
+
+
 Console Visualizations
 ----------------------
 
