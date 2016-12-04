@@ -232,8 +232,12 @@ def lessopen(ctx, input_file):
 
 
 @cuv.command()
+@click.option(
+    "--ignore",
+    multiple=True,
+)
 @click.pass_context
-def next(ctx):
+def next(ctx, ignore):
     """
     Display the next uncovered chunk.
 
@@ -243,7 +247,9 @@ def next(ctx):
        cuv lessopen <filename> | less -p \u258c -j 4
     """
     cfg = ctx.obj
-    for fname in cfg.measured_filenames():
+    for fname in sorted(cfg.measured_filenames()):
+        if any([ign in fname for ign in ignore]):
+            continue
         data = create_analysis(cfg.data, fname)
         if data.missing:
             subprocess.call(
