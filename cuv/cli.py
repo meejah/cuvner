@@ -4,6 +4,7 @@ import click
 import colors
 import coverage
 import pkg_resources
+import subprocess
 
 from pygments import highlight
 from pygments.formatters import TerminalFormatter
@@ -14,6 +15,7 @@ from cuv.spark import spark_coverage
 from cuv.less import term_color
 from cuv.graph import graph_coverage
 from cuv.diff import diff_color, diff_coverage_files
+from cuv.analysis import create_analysis
 
 
 class Config(object):
@@ -227,6 +229,29 @@ def lessopen(ctx, input_file):
     except IOError:
         # ignore broken pipes
         pass
+
+
+@cuv.command()
+@click.pass_context
+def next(ctx):
+    """
+    Display the next uncovered chunk.
+
+    This finds the next file that has some uncovered lines and then
+    runs:
+
+       cuv lessopen <filename> | less -p \u258c -j 4
+    """
+    cfg = ctx.obj
+    for fname in cfg.measured_filenames():
+        data = create_analysis(cfg.data, fname)
+        if data.missing:
+            subprocess.call(
+                u'cuv lessopen {} | less -p \u258c -j 4'.format(fname),
+                shell=True,
+            )
+            return
+
 
 @cuv.command()
 @click.argument(

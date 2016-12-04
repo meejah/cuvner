@@ -81,6 +81,8 @@ That says (since ``cuv lessopen`` is the "default" command) to run
 first uncovered line and place it 4 lines below the top of the
 screen. You can then hit ``n`` in less to go to the next one.
 
+This is precisely what the ``cuv next`` command does.
+
 
 Console Visualizations
 ----------------------
