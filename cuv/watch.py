@@ -47,9 +47,10 @@ def watch_coverage(keywords, cfg):
 
         def on_modified(self, event):
             if event.src_path == coverage_fname:
-                new_data= coverage.Coverage(data_file=coverage_fname)
+                click.echo("New coverage data:")
+                new_data = coverage.Coverage(data_file=coverage_fname)
                 new_data.load()
-                diff_coverage_data(new_data, self._existing_data, cfg)
+                diff_coverage_data(self._existing_data, new_data, cfg)
                 self._existing_data = new_data
 
     handler = Handler()
