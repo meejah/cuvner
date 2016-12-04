@@ -47,7 +47,7 @@ def diff_coverage_files(file_a, file_b, cfg):
         b_has = []
 
         if a.statements != b.statements:
-            print("{}: statement mismatch".format(fname))
+            click.echo("{}: statement mismatch".format(fname))
         else:
             for x in a.statements:
                 if x in a.missing:
@@ -57,7 +57,7 @@ def diff_coverage_files(file_a, file_b, cfg):
                     if x in b.missing:
                         a_has.append(x)
             if a_has != [] or b_has != []:
-                print(
+                click.echo(
                     "{}: {} vs. {}".format(
                         fname,
                         click.style(','.join([str(s) for s in a_has]), fg='red'),
