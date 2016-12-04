@@ -81,8 +81,10 @@ class DefaultCmdGroup(click.Group):
     def get_command(self, ctx, cmd_name):
         cmd = click.Group.get_command(self, ctx, cmd_name)
         if cmd is None:
-            ctx.args.insert(0, cmd_name)
-            return click.Group.get_command(self, ctx, 'lessopen')
+            if os.path.exists(cmd_name):
+                ctx.args.insert(0, cmd_name)
+                return click.Group.get_command(self, ctx, 'lessopen')
+            return click.Group.get_command(self, ctx, cmd_name)
         return cmd
 
 
