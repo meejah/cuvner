@@ -6,3 +6,4 @@ coverage
 six
 incremental
 unidiff
+watchdog
