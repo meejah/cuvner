@@ -258,7 +258,7 @@ def next(ctx, ignore, line_numbers):
         data = create_analysis(cfg.data, fname)
         if data.missing:
             subprocess.call(
-                u'cuv lessopen {} | less {} -p \u258c -j 4'.format(fname, '-N' if line_numbers else ''),
+                u'cuv lessopen {} | less -R {} -p \u258c -j 4'.format(fname, '-N' if line_numbers else ''),
                 shell=True,
             )
             return
