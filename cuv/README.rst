@@ -3,6 +3,11 @@ Cuv'ner
 
 "A commanding view of your test-coverage"
 
+.. image:: https://readthedocs.org/projects/cuvner/badge/?version=latest
+    :target: https://cuvner.readthedocs.io/en/latest/
+    :alt: ReadTheDocs
+
+
 The command-line tool ``cuv`` provided by this package gives some
 useful tools to visualize your project's coverage data. This means you
 must first run `coverage`_ against your project's test-suite.
