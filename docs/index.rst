@@ -46,6 +46,10 @@ Command Documentation
     :alt: showing "cuv diff" colouring
 
 
+.. click_command:: cuv next
+
+
+
 .. click_command:: cuv spark
 
 .. image:: ../screenshots/cuvner-spark-txtorcon.png
