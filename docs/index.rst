@@ -48,6 +48,8 @@ Command Documentation
 
 .. click_command:: cuv next
 
+.. image:: ../screenshots/cuvner-next-txtorcon.png
+    :alt: showing "cuv next" for above 'graph' screenshot
 
 
 .. click_command:: cuv spark
