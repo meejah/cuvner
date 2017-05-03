@@ -98,6 +98,9 @@ def diff_color(input_file, cfg):
                     msg = msg + (' ' * (term_width - len(msg)))
                     pager.echo(colors.color(msg, bg='yellow', fg='black'))
 
+        total_added_lines = 0
+        total_covered_lines = 0
+
         for (patch, covdata) in modified:
             fname = str(patch.target_file) + (' ' * (term_width - len(patch.target_file)))
             pager.echo(colors.color(fname, bg='cyan', fg='black'))
@@ -105,10 +108,12 @@ def diff_color(input_file, cfg):
                 for line in hunk:
                     kw = dict()
                     if line.is_added:
+                        total_added_lines += 1
                         if line.target_line_no in covdata.missing:
                             pager.echo(colors.color(u'\u258f', fg='red', bg=52), nl=False, color=True)
                             kw['bg'] = 52
                         else:
+                            total_covered_lines += 1
                             pager.echo(colors.color(u'\u258f', fg='green'), nl=False, color=True)
                     else:
                         pager.echo(' ', nl=False)
@@ -118,6 +123,10 @@ def diff_color(input_file, cfg):
                     elif line.is_removed:
                         kw['fg'] = 'red'
                     pager.echo(colors.color(out, **kw))
+
+        percent_covered = (total_covered_lines / float(total_added_lines))
+        msg = u"{} covered of {} added lines".format(total_covered_lines, total_added_lines)
+        print_banner(msg, percent_covered, pager=pager)
         return
 
         target_fname = abspath(target_fname)

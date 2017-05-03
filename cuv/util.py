@@ -92,7 +92,7 @@ def find_coverage_data(d):
     return find_coverage_data(path.split(d)[0])
 
 
-def print_banner(fname, percent, fill=None):
+def print_banner(fname, percent, fill=None, pager=None):
     """
     Prints out a coloured banner showing coverage percent
 
@@ -100,15 +100,16 @@ def print_banner(fname, percent, fill=None):
         terminal width, whichever is less.
     """
 
+    echo = pager.echo if pager else click.echo
     if fill is None:
         fill = min(click.get_terminal_size()[0], 80)
 
-    click.echo(colors.color('-' * fill, bg=226, fg=236), color=True)
+    echo(colors.color('-' * fill, bg=226, fg=236), color=True)
     maxsize = fill - len('coverage: ') - 3
     truncfname = fname[-maxsize:]
     if len(truncfname) != len(fname):
         truncfname = u'...{}'.format(truncfname)
-    click.echo(colors.color(u'coverage: {}'.format(truncfname).ljust(fill), bg=226, fg=236), color=True)
+    echo(colors.color(u'coverage: {}'.format(truncfname).ljust(fill), bg=226, fg=236), color=True)
     grsize = int(fill * percent)
     if grsize >= 5:
         prcnt_formatted = u'%3d%%' % int(percent * 100.0)
@@ -116,5 +117,5 @@ def print_banner(fname, percent, fill=None):
     else:
         gr = colors.color(u' ' * grsize, bg=22)
     red = colors.color(u' ' * int(math.ceil(fill * (1.0 - percent))), bg=52)
-    click.echo(gr + red, color=True)
-    click.echo(colors.color(u'-' * fill, bg=226, fg=236), color=True)
+    echo(gr + red, color=True)
+    echo(colors.color(u'-' * fill, bg=226, fg=236), color=True)
