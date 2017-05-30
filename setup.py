@@ -14,7 +14,7 @@ setup(
     install_requires=[
         'pygments',
         'click',
-        'ansicolors',
+        'ansicolors==1.0.2',
         'coverage',
         'six',
         'incremental',
