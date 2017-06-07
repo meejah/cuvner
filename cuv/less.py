@@ -62,22 +62,25 @@ def term_color(target_fname, cfg, style='monokai'):
     # red"
 
     formatter = TerminalFormatter(style=style)
-    lines = highlight(
-        open(fname).read(), get_lexer_by_name('python'),
-        formatter=formatter,
-    )
+    raw_data = open(fname).read()
+    lexer = get_lexer_by_name('python')
+    lexer.stripall = False
+    lexer.stripnl = False
+    lines = highlight(raw_data, lexer, formatter=formatter)
     lines = lines.split(u'\n')
+
+    # coverage thinks the first line is called "1", not "0"
+    offset = 1
 
     for (i, line) in enumerate(lines):
 #        assert type(line) is unicode
         spaces = fill - len(colors.strip_color(line))
         spaces = u' ' * spaces
-        # GAH this off-by-one crap again
-        if (i + 1) not in covdata.missing:
-            if (i + 1) in covdata.excluded:
+        if (i + offset) not in covdata.missing:
+            if (i + offset) in covdata.excluded:
                 line = colors.strip_color(line)
                 click.echo(colors.color(u'\u258f', fg=46, bg=236) + colors.color(line + spaces, bg=236, fg=242), color=True)
-            elif cfg.branch and (i + 1) in covdata.branch_lines():
+            elif cfg.branch and (i + offset) in covdata.branch_lines():
                 line = colors.strip_color(line)
                 click.echo(colors.color(u'\u258f', bg=52, fg=160) + colors.color(line + spaces, bg=52), color=True)
             else:
