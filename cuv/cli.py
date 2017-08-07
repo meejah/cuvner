@@ -135,7 +135,9 @@ def cuv(ctx, coverage_fname, exclude, branch):
         cfg.data = coverage.Coverage(data_file=coverage_fname)
         cfg.data.load()
     else:
-        cfg.data = None
+        raise click.UsageError(
+            "No coverage data. Do you have a .coverage file?"
+        )
 
 
 @cuv.command()
