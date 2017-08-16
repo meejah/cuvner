@@ -110,7 +110,7 @@ def diff_color(input_file, cfg):
                     if line.is_added:
                         total_added_lines += 1
                         if line.target_line_no in covdata.missing:
-                            pager.echo(colors.color(u'\u258f', fg='red', bg=52), nl=False, color=True)
+                            pager.echo(colors.color(u'\u258c', fg='red', bg=52), nl=False, color=True)
                             kw['bg'] = 52
                         else:
                             total_covered_lines += 1

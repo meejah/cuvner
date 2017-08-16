@@ -57,7 +57,8 @@ class _PagedEcho(object):
         return self
 
     def __exit__(self, a, b, c):
-        click.echo_via_pager(''.join(self._lines), color=True)
+        msg = ''.join(self._lines)
+        click.echo_via_pager(msg, color=True)
 
 
 def paged_echo():
