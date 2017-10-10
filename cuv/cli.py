@@ -243,8 +243,12 @@ def lessopen(ctx, input_file):
     "--line-numbers", "-N",
     is_flag=True,
 )
+@click.argument(
+    "fnames",
+    nargs=-1,
+)
 @click.pass_context
-def next(ctx, ignore, line_numbers):
+def next(ctx, ignore, line_numbers, fnames):
     """
     Display the next uncovered chunk.
 
@@ -252,11 +256,19 @@ def next(ctx, ignore, line_numbers):
     runs:
 
        cuv lessopen <filename> | less -p \u258c -j 4
+
+    ..which means you can keep pressing 'n' to see the next uncovered
+    line. If you include an argument, only files with that arg in the
+    name are considered as "next".
     """
     cfg = ctx.obj
+    anything_found = False
     for fname in sorted(cfg.measured_filenames()):
         if any([ign in fname for ign in ignore]):
             continue
+        if fnames and not any([fn in fname for fn in fnames]):
+            continue
+        anything_found = True
         data = create_analysis(cfg.data, fname)
         if data.missing:
             subprocess.call(
@@ -264,6 +276,8 @@ def next(ctx, ignore, line_numbers):
                 shell=True,
             )
             return
+    if fnames and not anything_found:
+        click.echo(u"No filenames matched any keywords: {}".format(', '.join(fnames)))
 
 
 @cuv.command()
