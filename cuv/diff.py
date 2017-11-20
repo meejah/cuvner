@@ -124,6 +124,9 @@ def diff_color(input_file, cfg):
                         kw['fg'] = 'red'
                     pager.echo(colors.color(out, **kw))
 
+        if total_added_lines == 0:
+            raise click.ClickException("No covered lines at all")
+
         percent_covered = (total_covered_lines / float(total_added_lines))
         msg = u"{} covered of {} added lines".format(total_covered_lines, total_added_lines)
         print_banner(msg, percent_covered, pager=pager)
