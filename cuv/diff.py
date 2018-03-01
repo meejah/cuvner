@@ -117,7 +117,7 @@ def diff_color(input_file, cfg):
                             pager.echo(colors.color(u'\u258f', fg='green'), nl=False, color=True)
                     else:
                         pager.echo(' ', nl=False)
-                    out = str(line)
+                    out = str(line).strip()
                     if line.is_added:
                         kw['fg'] = 'green'
                     elif line.is_removed:
