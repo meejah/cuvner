@@ -181,10 +181,14 @@ def graph_coverage(keywords, cfg):
         graph = ''
         glyphs = 0
 
+    covered_percent = (float(total_lines - total_missing) / total_lines) * 100.0
+    uncovered_percent = (float(total_missing) / total_lines) * 100.0
     click.echo(
-        u'From {} files: {} total lines, {} missing'.format(
+        u'From {} files: {} total lines, {} missing ({} {})'.format(
             len(file_coverage),
             click.style(str(total_lines), fg='green'),
             click.style(str(total_missing), fg='red'),
+            click.style('{:3.3}%'.format(covered_percent), fg='green'),
+            click.style('{:3.3}%'.format(uncovered_percent), fg='red'),
         )
     )

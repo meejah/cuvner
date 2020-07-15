@@ -44,7 +44,7 @@ class _PagedEcho(object):
 
     def echo(self, message=None, file=None, nl=True, err=False, color=None):
         if nl:
-            self._lines.append('{}\n'.format(message))
+            self._lines.append(u'{}\n'.format(message))
         else:
             self._lines.append(message)
 
@@ -57,7 +57,7 @@ class _PagedEcho(object):
         return self
 
     def __exit__(self, a, b, c):
-        msg = ''.join(self._lines)
+        msg = u''.join(self._lines)
         click.echo_via_pager(msg, color=True)
 
 
