@@ -72,7 +72,7 @@ class Config(object):
             click.echo("No coverage data foud.")
             raise click.Abort
 
-        for fname in self.data.data.measured_files():
+        for fname in self.data.get_data().measured_files():
             if not filter(fname):
                 yield fname
 
