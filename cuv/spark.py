@@ -11,7 +11,7 @@ def spark_coverage(keywords, cfg, sort=True):
     total_missing = 0
     total_files = 0
     percents = []
-    for fname in cov.data.measured_files():
+    for fname in cov.get_data().measured_files():
         if len(keywords) > 0:
             match = False
             for arg in keywords:

@@ -41,8 +41,8 @@ def show_missing(data, file_coverage, common):
 def _new_covered_lines(data_a, data_b, cfg):
     """
     """
-    files_a = set(data_a.data.measured_files())
-    files_b = set(data_b.data.measured_files())
+    files_a = set(data_a.get_data().measured_files())
+    files_b = set(data_b.get_data().measured_files())
     common_files = files_a.intersection(files_b)
 
     new_coverage = {}
@@ -69,7 +69,7 @@ def watch_coverage(keywords, cfg):
     common = util.common_root_path(file_coverage)
 
     existing_data = cfg.data
-    coverage_fname = cfg.data.data_files.filename
+    coverage_fname = cfg.get_data().data_files.filename
 
     # ugh
     class Handler(FileSystemEventHandler):

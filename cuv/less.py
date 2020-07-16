@@ -25,7 +25,7 @@ def term_color(target_fname, cfg, style='monokai'):
     cov = cfg.data
     target_fname = realpath(target_fname)
 
-    match = [f for f in cov.data.measured_files() if target_fname == realpath(f)]
+    match = [f for f in cov.get_data().measured_files() if target_fname == realpath(f)]
 
     if len(match) > 1:
         raise RuntimeError("Multiple matches: %s" % ', '.join(match))

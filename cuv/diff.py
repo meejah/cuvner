@@ -43,8 +43,8 @@ def diff_coverage_files(file_a, file_b, cfg):
 def diff_coverage_data(data_a, data_b, cfg):
     """
     """
-    files_a = set(data_a.data.measured_files())
-    files_b = set(data_b.data.measured_files())
+    files_a = set(data_a.get_data().measured_files())
+    files_b = set(data_b.get_data().measured_files())
     common_files = files_a.intersection(files_b)
 
     for fname in common_files:
@@ -82,7 +82,7 @@ def diff_color(input_file, cfg):
     with paged_echo() as pager:
         term_width = click.get_terminal_size()[0]
         modified = []
-        measured = cov.data.measured_files()
+        measured = cov.get_data().measured_files()
         diff = PatchSet(input_file)
         for thing in diff:
             if thing.is_modified_file or thing.is_added_file:
@@ -133,7 +133,7 @@ def diff_color(input_file, cfg):
         return
 
         target_fname = abspath(target_fname)
-        for fname in cov.data.measured_files():
+        for fname in cov.get_data().measured_files():
             if target_fname == abspath(fname):
                 match.append(fname)
 
