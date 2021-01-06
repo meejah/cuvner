@@ -171,15 +171,13 @@ TODO:
 
 
 ``cuv report``
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 Analyzes a diff file (similar to ``cuv diff``) but outputs some brief
 statistics instead of the whole diff. For example::
 
    $ git diff master.. | cuv report -
    98.7%: 986 covered of 999 added lines (leaving 13 missing)
-
-
 
 
 ``cuv spark``

@@ -25,6 +25,7 @@ setup(
         "dev": [
             "Sphinx",
             "wheel",
+            "twine",
         ]
     },
     author='meejah',
