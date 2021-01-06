@@ -18,9 +18,10 @@ dist/cuvner-${VERSION}-py2.py3-none-any.whl:
 	python setup.py bdist_wheel
 
 dist/cuvner-${VERSION}-py2.py3-none-any.whl.asc: dist/cuvner-${VERSION}-py2.py3-none-any.whl
-	gpg --verify dist/cuvner-${VERSION}-py2.py3-none-any.whl.asc || gpg --no-version --detach-sign --armor --local-user meejah@meejah.ca dist/cuvner-${VERSION}-py2.py3-none-any.whl
+	gpg --verify dist/cuvner-${VERSION}-py2.py3-none-any.whl.asc dist/cuvner-${VERSION}-py2.py3-none-any.whl || gpg --no-version --detach-sign --armor --local-user meejah@meejah.ca dist/cuvner-${VERSION}-py2.py3-none-any.whl
 
 release: dist/cuvner-${VERSION}-py2.py3-none-any.whl.asc dist/cuvner-${VERSION}-py2.py3-none-any.whl
+	twine check dist/cuvner-${VERSION}-py2.py3-none-any.whl
 	git tag -u 0xC2602803128069A7 --message "Release ${VERSION}" v${VERSION}
-##	twine upload -r pypi -c "cuvner v${VERSION} wheel" dist/cuvner-${VERSION}-py2.py3-none-any.whl dist/cuvner-${VERSION}-py2.py3-none-any.whl.asc
-## 	git push --tags
+	twine upload -r pypi -c "cuvner v${VERSION} wheel" dist/cuvner-${VERSION}-py2.py3-none-any.whl dist/cuvner-${VERSION}-py2.py3-none-any.whl.asc
+	git push --tags
