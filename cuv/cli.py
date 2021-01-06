@@ -14,7 +14,11 @@ from cuv.util import find_coverage_data, timer
 from cuv.spark import spark_coverage
 from cuv.less import term_color
 from cuv.graph import graph_coverage
-from cuv.diff import diff_color, diff_coverage_files
+from cuv.diff import (
+    diff_color,
+    diff_coverage_files,
+    diff_report,
+)
 from cuv.watch import watch_coverage
 from cuv.analysis import create_analysis
 
@@ -329,6 +333,32 @@ def diff(ctx, input_file):
         return
 
     diff_color(input_file, ctx.obj)
+
+
+@cuv.command()
+@click.argument(
+    'input_file',
+    type=click.File('r'),
+    nargs=1,
+    required=False,
+)
+@click.pass_context
+def report(ctx, input_file):
+    """
+    Produce a report about a diff
+
+    This summarizes any increases or decreases in coverage for a
+    particular patch (e.g. from "git diff") or branch.
+
+    For example, report on your whole current branch:
+
+       git diff master...HEAD | cuv report -
+    """
+    if input_file is None:
+        click.echo(report.get_help(ctx))
+        return
+
+    diff_report(input_file, ctx.obj)
 
 
 @cuv.command()

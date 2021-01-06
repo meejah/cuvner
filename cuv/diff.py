@@ -204,3 +204,46 @@ def diff_color(input_file, cfg):
                 # (on the plus side: this preserves syntax-highlighting
                 # while also getting a background color on the whole
                 # line)
+
+
+def diff_report(input_file, cfg):
+    """
+    produces a summary report about a diff
+    """
+    cov = cfg.data
+
+    with paged_echo() as pager:
+        term_width = click.get_terminal_size()[0]
+        modified = []
+        measured = cov.get_data().measured_files()
+        diff = PatchSet(input_file)
+        for thing in diff:
+            if thing.is_modified_file or thing.is_added_file:
+                target = thing.target_file
+                if target.startswith('b/') or target.startswith('a/'):
+                    target = target[2:]
+                if abspath(target) in measured:
+                    covdata = cov._analyze(abspath(target))
+                    modified.append((thing, covdata))
+
+        if not modified:
+            pager.echo("Couldn't match any coverage to diff")
+            return
+
+        # this chunk is "pretty" similar to the stuff in diff_cov so
+        # it might be worth combining, somehow?
+        total_added_lines = 0
+        total_covered_lines = 0
+
+        for (patch, covdata) in modified:
+            #print(patch, covdata)
+            for hunk in patch:
+                for line in hunk:
+                    if line.is_added:
+                        total_added_lines += 1
+                        if line.target_line_no not in covdata.missing:
+                            total_covered_lines += 1
+
+        percent_covered = (total_covered_lines / float(total_added_lines)) * 100.0
+        msg = u"{:.1f}%: {} covered of {} added lines".format(percent_covered, total_covered_lines, total_added_lines)
+        pager.echo(msg)
