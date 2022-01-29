@@ -338,7 +338,7 @@ def diff(ctx, input_file):
 @cuv.command()
 @click.argument(
     'input_file',
-    type=click.File('r'),
+    type=click.File('rb'),
     nargs=1,
     required=False,
 )

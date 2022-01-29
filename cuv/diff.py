@@ -1,4 +1,4 @@
-from __future__ import print_function, absolute_import
+from __future__ import print_function, absolute_import, unicode_literals
 
 import sys
 import math
@@ -217,7 +217,7 @@ def _diff_coverage_statistics(cov, diff_file):
 
     modified = []
     measured = cov.get_data().measured_files()
-    diff = PatchSet(diff_file)
+    diff = PatchSet(diff_file, encoding="utf8")
     for thing in diff:
         if thing.is_modified_file or thing.is_added_file:
             target = thing.target_file
