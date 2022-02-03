@@ -219,14 +219,13 @@ def match_coverage_files(measured, diff):
     :param list measured: absolute paths of files in the coverage data
     :param PatchSet diff: the diff (containing relative paths) we're comparing
 
-    # XXX what we want to do here is:
-
-    # find the "base" path: the "ends" of the paths should match to a
-    # certain point .. e.g. look at everything in "measured", and
-    # everything in "covered" and find the most-common base .. then
-    # take that part off when doing the analysis .. "coverage" goes by
-    # absolute paths (always) so sometimes they're in Tox directories
-    # (but the diff paths will be relative)
+    basically trying to reverse-enginner the "base path" of both the
+    "measured" and "patched" files, assuming that they're the same
+    project (e.g. /home/foo/src/project/src/__init__.py might be your
+    checkout's file in the diff (so like "a/src/__init__.py" in the
+    diff) while
+    /home/foo/src/project/.tox/py3/lib/python3.9/site-packages/project/__init__.py
+    might be what's in the coverage file)
     """
 
     patched = []
@@ -237,13 +236,6 @@ def match_coverage_files(measured, diff):
                 target = target[2:]
             patched.append(abspath(target))
 
-    # basically trying to reverse-enginner the "base path" of both the
-    # "measured" and "patched" files, assuming that they're the same
-    # project (e.g. /home/foo/src/project/src/__init__.py might be
-    # your checkout's file in the diff (so like "a/src/__init__.py" in
-    # the diff) while
-    # /home/foo/src/project/.tox/py3/lib/python3.9/site-packages/project/__init__.py
-    # might be what's in the coverage file)
 
     patched_to_measured = {}
 
