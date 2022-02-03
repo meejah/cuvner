@@ -206,14 +206,11 @@ def diff_color(input_file, cfg):
                 # line)
 
 
-def _diff_coverage_statistics(cov, diff_file):
-    """
-    :returns: a dict containing statistics about coverage of
-    differences in the provided diff. Contains the following items:
 
-     - total_added_lines: number of "+" lines in the diff
-     - total_covered_lines: number of "+" lines with test-coverage
+def match_coverage_files(measured, diff):
     """
+    :param list measured: absolute paths of files in the coverage data
+    :param PatchSet diff: the diff (containing relative paths) we're comparing
 
     # XXX what we want to do here is:
 
@@ -223,14 +220,7 @@ def _diff_coverage_statistics(cov, diff_file):
     # take that part off when doing the analysis .. "coverage" goes by
     # absolute paths (always) so sometimes they're in Tox directories
     # (but the diff paths will be relative)
-
-    modified = []
-    measured = [
-        abspath(p)
-        for p in cov.get_data().measured_files()
-    ]
-
-    diff = PatchSet(diff_file, encoding="utf8")
+    """
 
     patched = []
     for thing in diff:
@@ -243,7 +233,8 @@ def _diff_coverage_statistics(cov, diff_file):
     # basically trying to reverse-enginner the "base path" of both the
     # "measured" and "patched" files, assuming that they're the same
     # project (e.g. /home/foo/src/project/src/__init__.py might be
-    # your checkout's file in the diff (so like a/src/__init__.py) and
+    # your checkout's file in the diff (so like "a/src/__init__.py" in
+    # the diff) while
     # /home/foo/src/project/.tox/py3/lib/python3.9/site-packages/project/__init__.py
     # might be what's in the coverage file)
 
@@ -253,18 +244,39 @@ def _diff_coverage_statistics(cov, diff_file):
         # XXX FIXME pathlib or something
         m_segs = m.split("/")
         best = None
-        best_patched = None
         for p in patched:
             p_segs = p.split("/")
             end = -1
             while m_segs[end] == p_segs[end]:
                 end = end - 1
-            if best is None or end < best:
-                best = end
-                best_patched = p
-        if best is not None and best < -1:
-            patched_to_measured[best_patched] = m
+            if best is None or end < best[0]:
+                best = end, p
+        # we demand "< -1" because at least the filename itself must
+        # match
+        if best is not None and best[0] < -1:
+            patched_to_measured[best[1]] = m
+    return patched_to_measured
 
+
+def _diff_coverage_statistics(cov, diff_file):
+    """
+    :returns: a dict containing statistics about coverage of
+    differences in the provided diff. Contains the following items:
+
+     - total_added_lines: number of "+" lines in the diff
+     - total_covered_lines: number of "+" lines with test-coverage
+    """
+
+    modified = []
+    measured = [
+        abspath(p)
+        for p in cov.get_data().measured_files()
+    ]
+
+    diff = PatchSet(diff_file, encoding="utf8")
+    patched_to_measured = match_coverage_files(measured, diff)
+
+    # XXX code partially duplicated above, in match_coverage_files
     for thing in diff:
         if thing.is_modified_file or thing.is_added_file:
             target = thing.target_file
