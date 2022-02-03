@@ -2,7 +2,7 @@ from __future__ import print_function, absolute_import, unicode_literals
 
 import sys
 import math
-from os.path import abspath
+from os.path import abspath, split
 
 import colors
 import click
@@ -215,16 +215,65 @@ def _diff_coverage_statistics(cov, diff_file):
      - total_covered_lines: number of "+" lines with test-coverage
     """
 
+    # XXX what we want to do here is:
+
+    # find the "base" path: the "ends" of the paths should match to a
+    # certain point .. e.g. look at everything in "measured", and
+    # everything in "covered" and find the most-common base .. then
+    # take that part off when doing the analysis .. "coverage" goes by
+    # absolute paths (always) so sometimes they're in Tox directories
+    # (but the diff paths will be relative)
+
     modified = []
-    measured = cov.get_data().measured_files()
+    measured = [
+        abspath(p)
+        for p in cov.get_data().measured_files()
+    ]
+
     diff = PatchSet(diff_file, encoding="utf8")
+
+    patched = []
     for thing in diff:
         if thing.is_modified_file or thing.is_added_file:
             target = thing.target_file
             if target.startswith('b/') or target.startswith('a/'):
                 target = target[2:]
-            if abspath(target) in measured:
-                covdata = cov._analyze(abspath(target))
+            patched.append(abspath(target))
+
+    # basically trying to reverse-enginner the "base path" of both the
+    # "measured" and "patched" files, assuming that they're the same
+    # project (e.g. /home/foo/src/project/src/__init__.py might be
+    # your checkout's file in the diff (so like a/src/__init__.py) and
+    # /home/foo/src/project/.tox/py3/lib/python3.9/site-packages/project/__init__.py
+    # might be what's in the coverage file)
+
+    patched_to_measured = {}
+
+    for m in measured:
+        # XXX FIXME pathlib or something
+        m_segs = m.split("/")
+        best = None
+        best_patched = None
+        for p in patched:
+            p_segs = p.split("/")
+            end = -1
+            while m_segs[end] == p_segs[end]:
+                end = end - 1
+            if best is None or end < best:
+                best = end
+                best_patched = p
+        if best is not None and best < -1:
+            patched_to_measured[best_patched] = m
+
+    for thing in diff:
+        if thing.is_modified_file or thing.is_added_file:
+            target = thing.target_file
+            if target.startswith('b/') or target.startswith('a/'):
+                target = target[2:]
+            target = abspath(target)
+            target = patched_to_measured.get(target, target)
+            if target in measured:
+                covdata = cov._analyze(target)
                 modified.append((thing, covdata))
 
     # this chunk is "pretty" similar to the stuff in diff_cov so
