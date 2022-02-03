@@ -82,14 +82,21 @@ def diff_color(input_file, cfg):
     with paged_echo() as pager:
         term_width = click.get_terminal_size()[0]
         modified = []
-        measured = cov.get_data().measured_files()
+        measured = [
+            abspath(p)
+            for p in cov.get_data().measured_files()
+        ]
         diff = PatchSet(input_file)
+        patched_to_measured = match_coverage_files(measured, diff)
+
         for thing in diff:
             if thing.is_modified_file or thing.is_added_file:
                 target = thing.target_file
                 if target.startswith('b/') or target.startswith('a/'):
                     target = target[2:]
-                if abspath(target) in measured:
+                target = abspath(target)
+                target = patched_to_measured.get(target, target)
+                if target in measured:
                     covdata = cov._analyze(abspath(target))
                     modified.append((thing, covdata))
 #                    pager.echo(abspath(target))
