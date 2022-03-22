@@ -246,7 +246,7 @@ def match_coverage_files(measured, diff):
         for p in patched:
             p_segs = p.split("/")
             end = -1
-            while m_segs[end] == p_segs[end]:
+            while m_segs[end] == p_segs[end] and -end < len(m_segs):
                 end = end - 1
             if best is None or end < best[0]:
                 best = end, p
