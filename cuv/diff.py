@@ -2,6 +2,7 @@ from __future__ import print_function, absolute_import, unicode_literals
 
 import sys
 import math
+import shutil
 from os.path import abspath, split
 
 import colors
@@ -80,7 +81,7 @@ def diff_color(input_file, cfg):
     cov = cfg.data
 
     with paged_echo() as pager:
-        term_width = click.get_terminal_size()[0]
+        term_width = shutil.get_terminal_size()[0]
         modified = []
         measured = [
             abspath(p)
@@ -165,7 +166,7 @@ def diff_color(input_file, cfg):
         total_statements = covdata.numbers.n_statements
         total_missing = covdata.numbers.n_missing
 
-        fill = min(click.get_terminal_size()[0], 80)
+        fill = min(shutil.get_terminal_size()[0], 80)
         print_banner(fname, percent, fill)
 
         # it was tempting to write/override/wrap this Formatter and mess

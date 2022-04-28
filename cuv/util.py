@@ -1,5 +1,6 @@
 
 import time
+import shutil
 from os import path
 from contextlib import contextmanager
 
@@ -103,7 +104,7 @@ def print_banner(fname, percent, fill=None, pager=None):
 
     echo = pager.echo if pager else click.echo
     if fill is None:
-        fill = min(click.get_terminal_size()[0], 80)
+        fill = min(shutil.get_terminal_size()[0], 80)
 
     echo(colors.color('-' * fill, bg=226, fg=236), color=True)
     maxsize = fill - len('coverage: ') - 3

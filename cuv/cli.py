@@ -5,6 +5,7 @@ import colors
 import coverage
 import pkg_resources
 import subprocess
+import shutil
 
 from pygments import highlight
 from pygments.formatters import TerminalFormatter
@@ -131,7 +132,7 @@ def cuv(ctx, coverage_fname, exclude, branch):
     cfg = Config()
     ctx.obj = cfg
 
-    cfg.nice_width = min(80, click.get_terminal_size()[0])
+    cfg.nice_width = min(80, shutil.get_terminal_size()[0])
     cfg.exclude = exclude
 
     cfg.branch = branch

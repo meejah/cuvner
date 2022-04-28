@@ -4,6 +4,7 @@ from __future__ import print_function, absolute_import
 
 import time
 import math
+import shutil
 from os.path import abspath
 
 import colors
@@ -53,7 +54,7 @@ def graph_coverage(keywords, cfg):
             lines_per_col = 8
 
     max_fname = max([len(nm) - common for nm in file_coverage])
-    width = click.get_terminal_size()[0]
+    width = shutil.get_terminal_size()[0]
     graph_width = width - 13 - max_fname
 
     def percent_to_bar(prct):
