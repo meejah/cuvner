@@ -70,7 +70,7 @@ def watch_coverage(keywords, cfg):
     common = util.common_root_path(file_coverage)
 
     existing_data = cfg.data
-    coverage_fname = cfg.get_data().data_files.filename
+    coverage_fname = existing_data.get_data().data_filename()
 
     # ugh
     class Handler(FileSystemEventHandler):
