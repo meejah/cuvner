@@ -46,6 +46,15 @@ Command Documentation
     :alt: showing "cuv diff" colouring
 
 
+.. click_command:: cuv report
+
+
+.. click_command:: cuv diffcuv
+
+
+.. click_command:: cuv watch
+
+
 .. click_command:: cuv next
 
 .. image:: ../screenshots/cuvner-next-txtorcon.png
