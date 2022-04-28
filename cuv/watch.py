@@ -8,6 +8,7 @@ from __future__ import print_function, absolute_import
 
 import sys
 import math
+import shutil
 from os.path import realpath, join, split
 from time import sleep
 
@@ -31,7 +32,7 @@ from .diff import diff_coverage_data
 def show_missing(data, file_coverage, common):
     max_fname = max([len(nm) - common for nm in file_coverage])
     format_str = u'{:>%d}: {}' % (max_fname,)
-    width = click.get_terminal_size()[0]
+    width = shutil.get_terminal_size()[0]
 
     for fname in file_coverage:
         analysis = create_analysis(data, fname)

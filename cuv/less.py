@@ -8,6 +8,7 @@ from __future__ import print_function, absolute_import
 
 import sys
 import math
+import shutil
 from os.path import realpath
 
 import colors
@@ -48,7 +49,7 @@ def term_color(target_fname, cfg, style='monokai'):
     total_statements = covdata.numbers.n_statements
     total_missing = covdata.numbers.n_missing
 
-    fill = min(click.get_terminal_size()[0], 80)
+    fill = min(shutil.get_terminal_size()[0], 80)
     print_banner(fname, percent, fill)
 
     # it was tempting to write/override/wrap this Formatter and mess
