@@ -1,9 +1,10 @@
 incremental
 pygments
-click
+click<6  # FIXME, but something wrong with my plugin
 ansicolors
 coverage
 six
 incremental
 unidiff
 watchdog
+Sphinx
