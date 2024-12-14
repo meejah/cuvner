@@ -40,9 +40,12 @@ cuv = "cuv.cli:cuv"
 Homepage = "https://meejah.ca/projects/cuvner"
 
 [tool.hatch.version]
-path = "cuv/__init__.py"
+path = "cuv/_version.py"
 
 [tool.hatch.build.targets.sdist]
 include = [
     "/cuv",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["cuv/"]
