@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cuvner"
+dynamic = ["version"]
+description = "A commanding (terminal) view of your test-coverage."
+readme = "README.rst"
+license = "MIT"
+authors = [
+    { name = "meejah", email = "meejah@meejah.ca" },
+]
+keywords = [
+    "coverage",
+    "python",
+]
+dependencies = [
+    "ansicolors==1.0.2",
+    "click",
+    "coverage",
+    "incremental",
+    "pygments",
+    "six",
+    "unidiff",
+    "watchdog",
+]
+
+[project.optional-dependencies]
+dev = [
+    "Sphinx",
+    "twine",
+    "wheel",
+]
+
+[project.scripts]
+cuv = "cuv.cli:cuv"
+
+[project.urls]
+Homepage = "https://meejah.ca/projects/cuvner"
+
+[tool.hatch.version]
+path = "cuv/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/cuv",
+]
