@@ -29,13 +29,13 @@ We utilize several quality open-source packages to achieve this:
 Visualize Coverage Data in the Terminal
 ---------------------------------------
 
-Overview: ``cuv graph`` shows every line of coverage
+**Overview**: ``cuv graph`` shows every line of coverage
 
-Files: ``cuv lessopen`` shows coverage of each line of a file (tie it directly to ``less`` via ``LESSOPEN`` env-var for best results).
+**Files**: ``cuv lessopen`` shows coverage of each line of a file (tie it directly to ``less`` via ``LESSOPEN`` env-var for best results).
 
-Diffs: ``git diff main..HEAD | cuv diff -`` shows you what lines of a diff are (or are not) covered by tests.
+**Diffs**: ``git diff main..HEAD | cuv diff -`` shows you what lines of a diff are (or are not) covered by tests.
 
-Fun: ``cuv spark`` is a short, snappy overview of the entire project's coverage
+**Fun**: ``cuv spark`` is a short, snappy overview of the entire project's coverage
 
 
 ``cuv graph``
