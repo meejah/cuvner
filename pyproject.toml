@@ -16,7 +16,7 @@ keywords = [
     "python",
 ]
 dependencies = [
-    "ansicolors==1.0.2",
+    "ansicolors>=1.1.8",
     "click",
     "coverage",
     "incremental",
