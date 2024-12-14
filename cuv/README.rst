@@ -8,12 +8,10 @@ Cuv'ner
     :alt: ReadTheDocs
 
 
-The command-line tool ``cuv`` provided by this package gives some
-useful tools to visualize your project's coverage data. This means you
-must first run `coverage`_ against your project's test-suite.
+This package provides a command-line tool ``cuv`` to visualize coverage metrics in your terminal.
+Thus you must first run `coverage`_ against your project's test-suite.
 
-Once you have a ``.coverage`` file, you can use the commands
-documented below (or just type ``cuv`` to explore the help).
+Once you have a ``.coverage`` file, you can use the commands documented below (or just type ``cuv`` to explore the help).
 
 We utilize several quality open-source packages to achieve this:
 
@@ -22,10 +20,10 @@ We utilize several quality open-source packages to achieve this:
  - `pygments`_ by Georg Brandl / pocoo
  - `ansicolors`_ by Giorgos Verigakis
  - `unidiff`_ by Matias Bordese
- - `Source Code Pro`_: the best programming font
 
-Code: https://github.com/meejah/cuvner
-Docs: https://cuvner.readthedocs.org
+**Code**: https://github.com/meejah/cuvner
+
+**Docs**: https://cuvner.readthedocs.org
 
 
 Background + Terminology
