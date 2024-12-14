@@ -26,75 +26,16 @@ We utilize several quality open-source packages to achieve this:
 **Docs**: https://cuvner.readthedocs.org
 
 
-Background + Terminology
-------------------------
+Visualize Coverage Data in the Terminal
+---------------------------------------
 
-This started out as some experiments in "whole-project coverage
-visualization", and then also grew some console tools that I find
-useful when working with Python code.
+Overview: ``cuv graph`` shows every line of coverage
 
-I have abandoned the pixel/graphical visualization ideas and
-proofs-of-concepts into a branch and now this tool is `just` the
-console visualizations -- which are very useful when working on Python
-code.
+Files: ``cuv lessopen`` shows coverage of each line of a file (tie it directly to ``less`` via ``LESSOPEN`` env-var for best results).
 
-As far as my setup, I am using Debian with a 256-color and unicode
-capable shell using Solarized Dark color schemes. There are probably
-bugs with other setups, and to a reasonable extent I'm happy to accept
-pull-reqeusts fixing these. That said, a unicode-capable shell is a
-must.
+Diffs: ``git diff main..HEAD | cuv diff -`` shows you what lines of a diff are (or are not) covered by tests.
 
-
-Other Neat Visualizations
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Other nice "coverage visualization" tools I've run across:
-
-- of course, `Coverage.py
-  <http://coverage.readthedocs.org/en/latest/>`_ itself comes with a
-  nice HTML visualization
-- `emacs-coverage <https://github.com/trezona-lecomte/coverage>`_
-- `codecov.io browser extension
-  <https://github.com/codecov/browser-extension>`_ shows coverage live
-  while browsing github
-
-
-Notes on Tox
-------------
-
-If you're using `tox`_ to run tests (and you should, it's great!) your
-coverage files will -- depending upon setup -- end up in
-``.tox/envname/.coverage`` or similar. So, you will either need to use
-``--coverage`` to point cuv'ner at the right file, or simply move it to
-the top-level of your project for ease-of-use.
-
-
-Pro Tip(tm)
------------
-
-The "uncovered" lines start with a slightly different unicode
-character than the "covered" lines, so if you're trying to write tests
-for uncovered things, you can do this on the "next file that has
-uncovered things":
-
-``cuv src/file.py | less -p ▌ -j 4``
-
-That says (since ``cuv lessopen`` is the "default" command) to run
-``cuv lessopen`` on ``src/file.py`` and then , in less, jump to the
-first uncovered line and place it 4 lines below the top of the
-screen. You can then hit ``n`` in less to go to the next one.
-
-This is precisely what the ``cuv next`` command does.
-
-
-Console Visualizations
-----------------------
-
-The two main tools usable directly in the console are ``cuv graph``
-and ``cuv lessopen`` (which can be tied directly into ``less`` via the
-``LESSOPEN`` environment variable). For determining coverage of
-branches or individual commits, use ``cuv diff``. ``cuv spark`` can
-provide a quick overview of a project's coverage.
+Fun: ``cuv spark`` is a short, snappy overview of the entire project's coverage
 
 
 ``cuv graph``
@@ -168,6 +109,24 @@ TODO:
  - does it work with merge commits?
 
 
+Pro Tip(tm)
+-----------
+
+The "uncovered" lines start with a slightly different unicode
+character than the "covered" lines, so if you're trying to write tests
+for uncovered things, you can do this on the "next file that has
+uncovered things":
+
+``cuv src/file.py | less -p ▌ -j 4``
+
+That says (since ``cuv lessopen`` is the "default" command) to run
+``cuv lessopen`` on ``src/file.py`` and then , in less, jump to the
+first uncovered line and place it 4 lines below the top of the
+screen. You can then hit ``n`` in less to go to the next one.
+
+This is precisely what the ``cuv next`` command does.
+
+
 ``cuv report``
 ~~~~~~~~~~~~~~
 
@@ -201,3 +160,48 @@ get granularity down to about 12.5%).
 .. _Source Code Pro: http://adobe-fonts.github.io/source-code-pro/
 .. _ansicolors: https://github.com/verigak/colors/
 .. _unidiff: https://github.com/matiasb/python-unidiff
+
+
+Background + Terminology
+------------------------
+
+This started out as some experiments in "whole-project coverage
+visualization", and then also grew some console tools that I find
+useful when working with Python code.
+
+I have abandoned the pixel/graphical visualization ideas and
+proofs-of-concepts into a branch and now this tool is `just` the
+console visualizations -- which are very useful when working on Python
+code.
+
+As far as my setup, I am using Debian with a 256-color and unicode
+capable shell using Solarized Dark color schemes. There are probably
+bugs with other setups, and to a reasonable extent I'm happy to accept
+pull-reqeusts fixing these. That said, a unicode-capable shell is a
+must.
+
+
+Other Neat Visualizations
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Other nice "coverage visualization" tools I've run across:
+
+- of course, `Coverage.py
+  <http://coverage.readthedocs.org/en/latest/>`_ itself comes with a
+  nice HTML visualization
+- `emacs-coverage <https://github.com/trezona-lecomte/coverage>`_
+- `codecov.io browser extension
+  <https://github.com/codecov/browser-extension>`_ shows coverage live
+  while browsing github
+
+
+Notes on Tox
+------------
+
+If you're using `tox`_ to run tests (and you should, it's great!) your
+coverage files will -- depending upon setup -- end up in
+``.tox/envname/.coverage`` or similar. So, you will either need to use
+``--coverage`` to point cuv'ner at the right file, or simply move it to
+the top-level of your project for ease-of-use.
+
+
