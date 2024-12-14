@@ -84,6 +84,7 @@ def graph_coverage(keywords, cfg):
             data = create_analysis(cfg.data, fname)
         except Exception as e:
             click.echo(u"error: {}: {}".format(fname, e))
+            continue
         short = fname[common:]
         graph = ''
         glyphs = 0
