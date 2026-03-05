@@ -3,9 +3,9 @@ import os
 import click
 import colors
 import coverage
-import pkg_resources
 import subprocess
 import shutil
+from importlib import resources as importlib_resources
 
 from pygments import highlight
 from pygments.formatters import TerminalFormatter
@@ -150,9 +150,11 @@ def readme():
     """
     View the README
     """
+    ref = importlib_resources.files('cuv').joinpath('README.rst')
+    readme = ref.read_bytes()
     click.echo_via_pager(
         highlight(
-            pkg_resources.resource_string("cuv", "README.rst"),
+            readme,
             get_lexer_by_name('rst'),
             formatter=TerminalFormatter(),
         )
